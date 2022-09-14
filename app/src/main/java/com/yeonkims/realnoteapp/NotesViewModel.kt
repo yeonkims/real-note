@@ -1,14 +1,19 @@
 package com.yeonkims.realnoteapp
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 
 class NotesViewModel {
 
-    var noteList = listOf<String>("BABY", "LOVE", "LIFE")
+    var noteList = listOf("BABY", "LOVE", "LIKE")
 
     var currentIndex : MutableLiveData<Int> =  MutableLiveData(0)
+
+    var notePage : LiveData<String> = Transformations.map(currentIndex) { index ->
+        return@map "${index + 1} / ${noteList.size}"
+    }
 
     var nextIsEnabled : LiveData<Boolean> = Transformations.map(currentIndex) { index ->
         return@map index < noteList.size - 1
@@ -30,6 +35,10 @@ class NotesViewModel {
 
     fun prevNote() {
         currentIndex.value = currentIndex.value?.minus(1)
+    }
+
+    fun createNote() {
+        Log.i("aaaaaaa", "aaaaaaa")
     }
 
 }
