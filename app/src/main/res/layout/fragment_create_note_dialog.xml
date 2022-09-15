@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
+    <data>
+        <variable
+            name="createNoteDialogViewModel"
+            type="com.yeonkims.realnoteapp.CreateNoteDialogViewModel" />
+    </data>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -22,6 +29,7 @@
             android:layout_height="wrap_content"
             android:gravity="top|left"
             android:hint="Write note"
+            android:text="@={createNoteDialogViewModel.newNote}"
             android:inputType="textMultiLine"
             android:lines="10"
             android:maxLines="15"
@@ -35,7 +43,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/noButton"
+                android:id="@+id/cancelBtn"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_marginEnd="7dp"
@@ -44,10 +52,11 @@
                 android:textSize="14sp" />
 
             <Button
-                android:id="@+id/yesButton"
+                android:id="@+id/okBtn"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
+                android:enabled="@{createNoteDialogViewModel.createIsEnabled}"
                 android:text="OK"
                 android:textSize="14sp" />
 

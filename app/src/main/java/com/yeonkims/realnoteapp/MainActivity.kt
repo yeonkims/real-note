@@ -9,7 +9,7 @@ import com.yeonkims.realnoteapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    val viewModel = NotesViewModel()
+    private val viewModel = NotesViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
