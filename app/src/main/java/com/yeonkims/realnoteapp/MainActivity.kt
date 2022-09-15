@@ -35,7 +35,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.create_menu -> viewModel.createNote()
+            R.id.create_menu -> {
+                CreateNoteDialogFragment().show(
+                    supportFragmentManager, CreateNoteDialogFragment.TAG
+                )
+            }
         }
         return super.onOptionsItemSelected(item)
     }

@@ -37,8 +37,4 @@ class NotesViewModel {
         currentIndex.value = currentIndex.value?.minus(1)
     }
 
-    fun createNote() {
-        Log.i("aaaaaaa", "aaaaaaa")
-    }
-
 }
