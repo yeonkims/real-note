@@ -1,4 +1,4 @@
-package com.yeonkims.realnoteapp.adapter
+package com.yeonkims.realnoteapp.view.bindingAdapters
 
 import android.view.View
 import androidx.databinding.BindingAdapter

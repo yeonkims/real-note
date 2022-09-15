@@ -1,4 +1,4 @@
-package com.yeonkims.realnoteapp
+package com.yeonkims.realnoteapp.logic.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

@@ -1,15 +1,16 @@
-package com.yeonkims.realnoteapp
+package com.yeonkims.realnoteapp.view.dialogs
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentCreateNoteDialogBinding
+import com.yeonkims.realnoteapp.logic.viewmodels.CreateNoteDialogViewModel
 
-class CreateNoteDialogFragment : DialogFragment() {
+class CreateNoteDialog : DialogFragment() {
     private lateinit var binding: FragmentCreateNoteDialogBinding
     private val viewModel = CreateNoteDialogViewModel()
 
@@ -17,7 +18,8 @@ class CreateNoteDialogFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.fragment_create_note_dialog, null, false);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context),
+            R.layout.fragment_create_note_dialog, null, false);
 
         binding.createNoteDialogViewModel = viewModel
         binding.lifecycleOwner = this

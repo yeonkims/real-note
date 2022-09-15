@@ -1,15 +1,23 @@
-package com.yeonkims.realnoteapp
+package com.yeonkims.realnoteapp.view.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.ActivityMainBinding
+import com.yeonkims.realnoteapp.view.dialogs.CreateNoteDialog
+import com.yeonkims.realnoteapp.logic.viewmodels.NotesViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val viewModel = NotesViewModel()
+
+    @Inject
+    lateinit var viewModel: NotesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +44,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.create_menu -> {
-                CreateNoteDialogFragment().show(
-                    supportFragmentManager, CreateNoteDialogFragment.TAG
+                CreateNoteDialog().show(
+                    supportFragmentManager, CreateNoteDialog.TAG
                 )
             }
         }

@@ -1,11 +1,14 @@
-package com.yeonkims.realnoteapp
+package com.yeonkims.realnoteapp.logic.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.yeonkims.realnoteapp.data.repositories.NoteRepository
+import javax.inject.Inject
 
-class NotesViewModel {
+class NotesViewModel @Inject constructor(
+    private val repository: NoteRepository
+) {
 
     var noteList = listOf("BABY", "LOVE", "LIKE")
 
