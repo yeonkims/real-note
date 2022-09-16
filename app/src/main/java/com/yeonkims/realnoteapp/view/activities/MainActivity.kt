@@ -33,6 +33,10 @@ class MainActivity : AppCompatActivity() {
             viewModel.prevNote()
         }
 
+        binding.deleteBtn.setOnClickListener {
+            viewModel.deleteNote()
+        }
+
         binding.lifecycleOwner = this
     }
 

@@ -1,10 +1,14 @@
 package com.yeonkims.realnoteapp.logic.viewmodels
 
-import android.util.Log
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.yeonkims.realnoteapp.data.repositories.NoteRepository
+import javax.inject.Inject
 
-class CreateNoteDialogViewModel {
+class CreateNoteDialogViewModel @Inject constructor(
+    private val repository: NoteRepository
+    ) {
 
     var newNote: MutableLiveData<String> = MutableLiveData("")
 
@@ -13,7 +17,7 @@ class CreateNoteDialogViewModel {
     }
 
     fun createNote() {
-        Log.i("newNoteValue : ", "${newNote.value}")
+        repository.createNote(newNote.value!!)
     }
 
 }

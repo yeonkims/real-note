@@ -9,10 +9,15 @@ import androidx.fragment.app.DialogFragment
 import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentCreateNoteDialogBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.CreateNoteDialogViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CreateNoteDialog : DialogFragment() {
     private lateinit var binding: FragmentCreateNoteDialogBinding
-    private val viewModel = CreateNoteDialogViewModel()
+
+    @Inject
+    lateinit var viewModel : CreateNoteDialogViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

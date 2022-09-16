@@ -43,6 +43,7 @@
             android:backgroundTint="@color/white"
             android:padding="8dp"
             android:src="@drawable/ic_delete"
+            app:isVisible="@{notesViewModel.hasNotes}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -51,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:orientation="horizontal"
-            app:showPageNavigation="@{!notesViewModel.noteList.isEmpty}"
+            app:isVisible="@{notesViewModel.hasNotes}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
