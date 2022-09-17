@@ -5,7 +5,9 @@ import com.yeonkims.realnoteapp.data.models.Note
 
 interface NoteRepository {
 
-    fun getNotes() : LiveData<List<Note>>
+    suspend fun fetchNotes()
+
+    fun getNotes() : LiveData<List<Note>?>
 
     fun deleteNote(id: Int)
 

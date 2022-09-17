@@ -58,9 +58,11 @@ class NotesFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     R.id.create_menu -> {
-                        CreateNoteDialog().show(
-                            parentFragmentManager, CreateNoteDialog.TAG
-                        )
+                        if(!viewModel.isLoading.value!!) {
+                            CreateNoteDialog().show(
+                                parentFragmentManager, CreateNoteDialog.TAG
+                            )
+                        }
                     }
                     else -> return false
                 }
