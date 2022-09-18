@@ -27,9 +27,15 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Title"
+            android:text="@={createNoteDialogViewModel.newTitle}"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="top|left"
-            android:hint="Write note"
-            android:text="@={createNoteDialogViewModel.newNote}"
+            android:hint="Content"
+            android:text="@={createNoteDialogViewModel.newContent}"
             android:inputType="textMultiLine"
             android:lines="10"
             android:maxLines="15"

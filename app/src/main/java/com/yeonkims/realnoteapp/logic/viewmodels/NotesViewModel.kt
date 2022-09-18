@@ -27,61 +27,22 @@ class NotesViewModel @Inject constructor(
 
     }
 
-    private val latestNotes: LiveData<List<Note>?> = repository.getNotes()
-
-    private var currentIndex : MutableLiveData<Int> =  MutableLiveData(0)
+    val latestNotes: LiveData<List<Note>?> = repository.getNotes()
 
     var isLoading = Transformations.map(latestNotes) { notes ->
         return@map notes == null
-    }
-
-    private val combinedLiveData: PairLiveData<Int, List<Note>?> = currentIndex.combine(latestNotes)
-
-    var notePage : LiveData<String> = Transformations.map(combinedLiveData) { pair ->
-        val index = pair.first!!
-        val notes = pair.second ?: emptyList<Note>()
-
-        return@map "${index + 1} / ${notes.size}"
-    }
-
-    var nextIsEnabled : LiveData<Boolean> = Transformations.map(combinedLiveData) { pair ->
-        val index = pair.first!!
-        val notes = pair.second ?: emptyList<Note>()
-
-        return@map index < notes.size - 1
-    }
-
-    var prevIsEnabled : LiveData<Boolean> = Transformations.map(currentIndex) { index ->
-        return@map index != 0
     }
 
     var hasNotes : LiveData<Boolean> = Transformations.map(latestNotes) { notes ->
         return@map notes?.isNotEmpty() ?: false
     }
 
-    var currentNote = Transformations.map(combinedLiveData) { pair ->
-        val index = pair.first!!
-        val notes = pair.second ?: emptyList()
-
-        if(notes.isEmpty())
-            return@map "You have no notes"
-        else return@map notes[index].content
+    fun selectedNote(index: Int) : Note {
+        return latestNotes.value!![index]
     }
 
-    fun nextNote() {
-        currentIndex.value = currentIndex.value?.plus(1)
-    }
-
-    fun prevNote() {
-        currentIndex.value = currentIndex.value?.minus(1)
-    }
-
-    fun deleteNote() {
-        val index = currentIndex.value!!
+    fun deleteNote(index: Int) {
         val notes = latestNotes.value!!
-
-        if(index == notes.size - 1 && index != 0)
-            currentIndex.value = index.minus(1)
 
         viewModelScope.launch {
             try {

@@ -1,5 +1,6 @@
 package com.yeonkims.realnoteapp.view.bindingAdapters
 
+import android.util.Log
 import android.view.View
 import androidx.databinding.BindingAdapter
 
