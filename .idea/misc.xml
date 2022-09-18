@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../Library/Android/sdk/platforms/android-32/data/res/layout/auto_complete_list.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1915" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.37213466985654453" />
         <entry key="app/src/main/res/layout/create_note_dialog.xml" value="0.22239583333333332" />

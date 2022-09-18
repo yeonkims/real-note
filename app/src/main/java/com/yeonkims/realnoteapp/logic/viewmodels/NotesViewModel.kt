@@ -9,7 +9,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NotesViewModel @Inject constructor(
-    private val repository: NoteRepository
+    private val repository: NoteRepository,
+    private val errorViewModel: ErrorViewModel
 ) : ViewModel() {
 
     var hasError : MutableLiveData<Boolean> = MutableLiveData(false)
@@ -81,7 +82,14 @@ class NotesViewModel @Inject constructor(
 
         if(index == notes.size - 1 && index != 0)
             currentIndex.value = index.minus(1)
-        repository.deleteNote(notes[index].id)
+
+        viewModelScope.launch {
+            try {
+                repository.deleteNote(notes[index].id)
+            } catch (e: Exception) {
+                errorViewModel.recordErrorMessage(e.message)
+            }
+        }
     }
 
     fun retryFetch() {
