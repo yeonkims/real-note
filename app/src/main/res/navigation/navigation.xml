@@ -8,5 +8,19 @@
     <fragment
         android:id="@+id/noteListFragment"
         android:name="com.yeonkims.realnoteapp.view.fragments.NoteListFragment"
-        android:label="NoteListFragment" />
+        android:label="NoteListFragment"
+        tools:layout="@layout/fragment_note_list">
+        <action
+            android:id="@+id/action_noteListFragment_to_selectedNoteFragment"
+            app:destination="@id/selectedNoteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectedNoteFragment"
+        android:name="com.yeonkims.realnoteapp.view.fragments.SelectedNoteFragment"
+        android:label="fragment_selected_note"
+        tools:layout="@layout/fragment_selected_note">
+        <argument
+            android:name="selectedNote"
+            app:argType="com.yeonkims.realnoteapp.data.models.Note" />
+    </fragment>
 </navigation>

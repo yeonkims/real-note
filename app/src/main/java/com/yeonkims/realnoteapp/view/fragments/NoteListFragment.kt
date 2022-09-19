@@ -22,29 +22,8 @@ class NoteListFragment : Fragment() {
     @Inject
     lateinit var viewModel: NotesViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val binding : FragmentNoteListBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_note_list, container, false)
-
-        val adapter = NoteListAdapter(viewModel)
-
-        binding.notesViewModel = viewModel
-        binding.noteList.adapter = adapter
-        viewModel.latestNotes.observe(viewLifecycleOwner) {
-            adapter.notifyDataSetChanged()
-        }
-
-
-        binding.lifecycleOwner = this
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         val menuHost: MenuHost = requireActivity()
 
@@ -68,6 +47,26 @@ class NoteListFragment : Fragment() {
             }
 
         })
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding : FragmentNoteListBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_note_list, container, false)
+
+        val adapter = NoteListAdapter(viewModel)
+
+        binding.notesViewModel = viewModel
+        binding.noteList.adapter = adapter
+        viewModel.latestNotes.observe(viewLifecycleOwner) {
+            adapter.notifyDataSetChanged()
+        }
+
+        binding.lifecycleOwner = this
+
+        return binding.root
     }
 
 }
