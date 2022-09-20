@@ -1,4 +1,4 @@
-package com.yeonkims.realnoteapp.data.impl.fake_repositories
+package com.yeonkims.realnoteapp.data.impl.temp_repositories
 
 import android.os.Build
 import android.util.Log
@@ -12,11 +12,12 @@ import java.net.HttpRetryException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FakeNoteRepository : NoteRepository {
+class TempNoteRepository : NoteRepository {
 
-    var savedNotes = mutableListOf(Note(1, "1", "BABY", "2022-09-11"),
-        Note(2, "2", "LOVE", "2022-09-12"),
-        Note(3, "3", "LIKE", "2022-09-13"))
+    var savedNotes = mutableListOf(Note(1, "마트가면 살 것", "불고기\n소금\n아이스크림", "2022-09-11"),
+        Note(2, "귀국 선물 리스트", "- 찻잔\n- 러쉬\n - 쿠키 세트", "2022-09-12"),
+        Note(3, "세인이랑 갈 곳", "오늘 발견한 카페랑 케밥집\n세븐 시스터즈","2022-09-13"),
+        Note(4, "Today's mood", "peaceful, happy", "2022-09-15"))
     var savedNotesLiveData = MutableLiveData<List<Note>>(null)
 
     var numberOfErrors = 0

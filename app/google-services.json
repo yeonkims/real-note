@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "148869433550",
+    "project_id": "bodbuild-259cd",
+    "storage_bucket": "bodbuild-259cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148869433550:android:f8e1c389daad4fe186689f",
+        "android_client_info": {
+          "package_name": "com.example.bodbuild"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148869433550-jnp8i8d369m9o66v6ui15bo938rt1qb7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr1gfI9hMJVN237QkHFIPGyZm4b_WE_vM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148869433550-jnp8i8d369m9o66v6ui15bo938rt1qb7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "148869433550-dlml6bsopdhr1dtjl88t1ujokh1eutk7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bodbuild"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148869433550:android:8514fc9b8729665386689f",
+        "android_client_info": {
+          "package_name": "com.yeonkims.realnoteapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148869433550-jnp8i8d369m9o66v6ui15bo938rt1qb7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr1gfI9hMJVN237QkHFIPGyZm4b_WE_vM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148869433550-jnp8i8d369m9o66v6ui15bo938rt1qb7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "148869433550-dlml6bsopdhr1dtjl88t1ujokh1eutk7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bodbuild"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
