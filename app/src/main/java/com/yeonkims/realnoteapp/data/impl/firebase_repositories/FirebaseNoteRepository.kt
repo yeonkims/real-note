@@ -9,7 +9,6 @@ import com.google.firebase.functions.FirebaseFunctions
 import com.google.gson.Gson
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
-import com.yeonkims.realnoteapp.util.helpers.parseList
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -44,24 +43,43 @@ class FirebaseNoteRepository @Inject constructor(
     }
 
     override suspend fun deleteNote(id: Int) {
-        savedNotes = savedNotes.filter {  note ->
+        val originalSavedNotes = savedNotesLiveData.value!!
+        val modifiedSavedNotes = originalSavedNotes.filter { note ->
             return@filter note.id != id
         }.toMutableList()
-        savedNotesLiveData.value = savedNotes
+        savedNotesLiveData.value = modifiedSavedNotes
+
+        functions.getHttpsCallable("deleteNote").call(mapOf("id" to id)).addOnCompleteListener { response ->
+            if(!response.isSuccessful) {
+                savedNotesLiveData.value = originalSavedNotes
+                throw response.exception!!
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun createNote(title: String, content: String) {
-        var nextId = 1
-        if(savedNotes.isNotEmpty()) nextId = savedNotes.last().id + 1
 
-        val currentTime = Date(System.currentTimeMillis())
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale("ko", "KR"))
-        val createdDate = dateFormat.format(currentTime)
+        functions.getHttpsCallable("createNote").call(mapOf("title" to title, "content" to content))
+            .addOnCompleteListener { response ->
+                if(response.isSuccessful) {
+                    // 1. Get newId
+                    val data = response.result.data
+                    val id = (data as HashMap<String, Int>)["ref"]
 
-        savedNotes.add(Note(nextId, title, content, createdDate))
-        savedNotesLiveData.value = savedNotes
+                    // 2. Create new note
+                    val createdNote = Note(id!!, title, content, Date())
 
-        Log.i(javaClass.simpleName, "$savedNotes")
+                    // 3. Add new note to existing list of notes
+                    val originalSavedNotes = savedNotesLiveData.value!!
+                    val updatedSaveNotes = originalSavedNotes.toMutableList()
+                    updatedSaveNotes.add(createdNote)
+
+                    // 4. update list of notes with the new list (original list + new note)
+                    savedNotesLiveData.value = updatedSaveNotes
+                } else {
+                    throw response.exception!!
+                }
+            }
     }
 }

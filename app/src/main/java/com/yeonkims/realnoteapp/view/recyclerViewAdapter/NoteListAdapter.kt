@@ -38,6 +38,7 @@ class ViewHolder(private val binding: ListItemNoteBinding): RecyclerView.ViewHol
         val note = notesViewModel.selectedNote(position)
         binding.note = note
 
+        Log.i(javaClass.simpleName, "note: $note")
         binding.deleteBtn.setOnClickListener {
             notesViewModel.deleteNote(position)
         }
