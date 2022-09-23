@@ -13,6 +13,8 @@ import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.databinding.FragmentSelectedNoteBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.SelectedNoteViewModel
+import com.yeonkims.realnoteapp.view.dialogs.CreateNoteDialog
+import com.yeonkims.realnoteapp.view.dialogs.DeleteNoteDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -52,10 +54,7 @@ class SelectedNoteFragment : Fragment() {
         }
 
         val menuHost: MenuHost = requireActivity()
-        menuProvider = SelectedNoteMenuProvider(
-            navController,
-            note,
-        )
+        menuProvider = SelectedNoteMenuProvider(navController, note)
         menuHost.addMenuProvider(menuProvider)
         return binding.root
     }
@@ -78,8 +77,9 @@ class SelectedNoteFragment : Fragment() {
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             when (menuItem.itemId) {
                 R.id.delete_menu -> {
-                    viewModel.deleteNote(note)
-                    navController.popBackStack()
+                    DeleteNoteDialog(note).show(
+                        parentFragmentManager, DeleteNoteDialog.TAG
+                    )
                 }
                 else -> return false
             }
