@@ -19,4 +19,6 @@ data class Note (
             val simpleDateFormat = SimpleDateFormat(pattern)
             return simpleDateFormat.format(createdDate)
         }
+
+    override fun toString(): String = id.toString()
 }

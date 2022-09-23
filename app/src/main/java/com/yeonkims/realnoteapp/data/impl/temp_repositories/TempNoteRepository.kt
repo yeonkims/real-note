@@ -9,7 +9,6 @@ import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
 import kotlinx.coroutines.delay
 import java.net.HttpRetryException
-import java.text.SimpleDateFormat
 import java.util.*
 
 class TempNoteRepository : NoteRepository {
@@ -35,10 +34,10 @@ class TempNoteRepository : NoteRepository {
         return savedNotesLiveData
     }
 
-    override suspend fun deleteNote(id: Int) {
+    override suspend fun deleteNote(note :Note) {
         //throw HttpRetryException("failed to delete", 500)
-        savedNotes = savedNotes.filter {  note ->
-            return@filter note.id != id
+        savedNotes = savedNotes.filter {  existingNote ->
+            return@filter existingNote.id != note.id
         }.toMutableList()
         savedNotesLiveData.value = savedNotes
     }

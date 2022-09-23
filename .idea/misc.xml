@@ -5,16 +5,26 @@
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.1625" />
         <entry key="../../../Library/Android/sdk/platforms/android-32/data/res/layout/auto_complete_list.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1115" />
+        <entry key="app/src/main/res/drawable/ic_back.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.1115" />
+        <entry key="app/src/main/res/drawable/ic_error.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1915" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.37213466985654453" />
+        <entry key="app/src/main/res/drawable/note_item_bg.xml" value="0.1535" />
+        <entry key="app/src/main/res/font/noto_sans.xml" value="0.1" />
+        <entry key="app/src/main/res/font/noto_sans_kr.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1871345029239766" />
         <entry key="app/src/main/res/layout/create_note_dialog.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/layout/fragment_create_note_dialog.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_note.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_note_list.xml" value="0.140625" />
+        <entry key="app/src/main/res/layout/fragment_note_list.xml" value="0.11627906976744186" />
         <entry key="app/src/main/res/layout/fragment_notes.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/list_item_note.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_selected_note.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/list_item_note.xml" value="0.3081232492997199" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.15989583333333332" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.15989583333333332" />
+        <entry key="app/src/main/res/menu/note_list_menu.xml" value="0.13541666666666666" />
+        <entry key="app/src/main/res/menu/selected_note_menu.xml" value="0.1875" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1285" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1285" />
       </map>

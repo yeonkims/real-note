@@ -1,15 +1,12 @@
 package com.yeonkims.realnoteapp.view.recyclerViewAdapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.databinding.ListItemNoteBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.NotesViewModel
 import com.yeonkims.realnoteapp.view.fragments.NoteListFragmentDirections
-import com.yeonkims.realnoteapp.view.fragments.SelectedNoteFragment
 
 class NoteListAdapter(private val noteViewModel: NotesViewModel): RecyclerView.Adapter<ViewHolder>() {
 
@@ -38,10 +35,6 @@ class ViewHolder(private val binding: ListItemNoteBinding): RecyclerView.ViewHol
         val note = notesViewModel.selectedNote(position)
         binding.note = note
 
-        Log.i(javaClass.simpleName, "note: $note")
-        binding.deleteBtn.setOnClickListener {
-            notesViewModel.deleteNote(position)
-        }
 
         binding.noteArea.setOnClickListener {
             val action =

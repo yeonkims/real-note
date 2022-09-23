@@ -1,7 +1,6 @@
 package com.yeonkims.realnoteapp.data.impl.firebase_repositories
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +8,6 @@ import com.google.firebase.functions.FirebaseFunctions
 import com.google.gson.Gson
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -42,14 +40,14 @@ class FirebaseNoteRepository @Inject constructor(
         return savedNotesLiveData
     }
 
-    override suspend fun deleteNote(id: Int) {
+    override suspend fun deleteNote(note: Note) {
         val originalSavedNotes = savedNotesLiveData.value!!
-        val modifiedSavedNotes = originalSavedNotes.filter { note ->
-            return@filter note.id != id
+        val modifiedSavedNotes = originalSavedNotes.filter { existingNote ->
+            return@filter existingNote.id != note.id
         }.toMutableList()
         savedNotesLiveData.value = modifiedSavedNotes
 
-        functions.getHttpsCallable("deleteNote").call(mapOf("id" to id)).addOnCompleteListener { response ->
+        functions.getHttpsCallable("deleteNote").call(mapOf("id" to note.id)).addOnCompleteListener { response ->
             if(!response.isSuccessful) {
                 savedNotesLiveData.value = originalSavedNotes
                 throw response.exception!!

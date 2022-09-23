@@ -3,8 +3,6 @@ package com.yeonkims.realnoteapp.logic.viewmodels
 import androidx.lifecycle.*
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
-import com.yeonkims.realnoteapp.util.livedata.PairLiveData
-import com.yeonkims.realnoteapp.util.livedata.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,18 +37,6 @@ class NotesViewModel @Inject constructor(
 
     fun selectedNote(index: Int) : Note {
         return latestNotes.value!![index]
-    }
-
-    fun deleteNote(index: Int) {
-        val notes = latestNotes.value!!
-
-        viewModelScope.launch {
-            try {
-                repository.deleteNote(notes[index].id)
-            } catch (e: Exception) {
-                errorViewModel.recordErrorMessage(e.message)
-            }
-        }
     }
 
     fun retryFetch() {
