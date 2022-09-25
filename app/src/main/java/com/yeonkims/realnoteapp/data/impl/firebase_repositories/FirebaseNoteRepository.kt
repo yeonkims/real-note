@@ -1,6 +1,7 @@
 package com.yeonkims.realnoteapp.data.impl.firebase_repositories
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -55,29 +56,54 @@ class FirebaseNoteRepository @Inject constructor(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun createNote(title: String, content: String) {
 
         functions.getHttpsCallable("createNote").call(mapOf("title" to title, "content" to content))
             .addOnCompleteListener { response ->
                 if(response.isSuccessful) {
-                    // 1. Get newId
                     val data = response.result.data
                     val id = (data as HashMap<String, Int>)["ref"]
 
-                    // 2. Create new note
-                    val createdNote = Note(id!!, title, content, Date())
+                    val createdNote = Note(id!!, title, content, Date(), null)
 
-                    // 3. Add new note to existing list of notes
                     val originalSavedNotes = savedNotesLiveData.value!!
                     val updatedSaveNotes = originalSavedNotes.toMutableList()
                     updatedSaveNotes.add(createdNote)
 
-                    // 4. update list of notes with the new list (original list + new note)
                     savedNotesLiveData.value = updatedSaveNotes
                 } else {
                     throw response.exception!!
                 }
             }
     }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override suspend fun updateNote(id: Int, title: String, content: String) {
+
+        val originalSavedNotes = savedNotesLiveData.value!!
+        val editingNote = originalSavedNotes.first { existingNote ->
+            existingNote.id == id
+        }
+        val editedNote = editingNote.copy(title = title, content = content)
+
+        functions.getHttpsCallable("updateNote").call(mapOf("id" to id, "title" to title, "content" to content))
+            .addOnCompleteListener { response ->
+                if(response.isSuccessful) {
+                    val updatedList = originalSavedNotes.toMutableList()
+                    updatedList.replaceAll { note ->
+                        if(note.id == id) {
+                            return@replaceAll editedNote
+                        } else {
+                            return@replaceAll note
+                        }
+                    }
+                    savedNotesLiveData.value = updatedList
+                } else {
+                    response.exception!!
+                }
+
+            }
+    }
+
+
 }

@@ -13,10 +13,10 @@ import java.util.*
 
 class TempNoteRepository : NoteRepository {
 
-    var savedNotes = mutableListOf(Note(1, "마트가면 살 것", "불고기\n소금\n아이스크림", Date()),
-        Note(2, "귀국 선물 리스트", "- 찻잔\n- 러쉬\n - 쿠키 세트", Date()),
-        Note(3, "세인이랑 갈 곳", "오늘 발견한 카페랑 케밥집\n세븐 시스터즈",Date()),
-        Note(4, "Today's mood", "peaceful, happy", Date()))
+    var savedNotes = mutableListOf(Note(1, "마트가면 살 것", "불고기\n소금\n아이스크림", Date(), null),
+        Note(2, "귀국 선물 리스트", "- 찻잔\n- 러쉬\n - 쿠키 세트", Date(), null),
+        Note(3, "세인이랑 갈 곳", "오늘 발견한 카페랑 케밥집\n세븐 시스터즈",Date(), null),
+        Note(4, "Today's mood", "peaceful, happy", Date(), null))
     var savedNotesLiveData = MutableLiveData<List<Note>>(null)
 
     var numberOfErrors = 0
@@ -50,9 +50,13 @@ class TempNoteRepository : NoteRepository {
 
         val currentTime = Date(System.currentTimeMillis())
 
-        savedNotes.add(Note(nextId, title, content, currentTime))
+        savedNotes.add(Note(nextId, title, content, currentTime, null))
         savedNotesLiveData.value = savedNotes
 
         Log.i(javaClass.simpleName, "$savedNotes")
+    }
+
+    override suspend fun updateNote(id: Int, title: String, content: String) {
+        TODO("Not yet implemented")
     }
 }

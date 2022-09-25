@@ -34,9 +34,11 @@ class SelectedNoteViewModel @AssistedInject constructor(
                 if(note == null) {
                     val newTitle = title.value!!
                     val newContent = content.value!!
-                    repository.createNote(newTitle, newContent)
+                    if(!(newTitle.isEmpty() && newContent.isEmpty())) {
+                        repository.createNote(newTitle, newContent)
+                    }
                 } else {
-                    // repository.editNote(note.id, title, content)
+                    repository.updateNote(note.id, title.value!!, content.value!!)
                 }
 
             } catch (e: java.lang.Exception) {

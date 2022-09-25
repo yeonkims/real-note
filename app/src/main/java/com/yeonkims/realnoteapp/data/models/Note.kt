@@ -7,11 +7,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Parcelize
-data class Note (
+data class Note(
     val id: Int,
     val title: String,
     val content: String,
     val createdDate: Date,
+    val modifiedDate: Date?,
 ) : Parcelable {
 
     val createdDateString: String
