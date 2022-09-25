@@ -17,12 +17,12 @@ class CreateNoteDialogViewModel @Inject constructor(
     private val errorViewModel: ErrorViewModel
     ) : ViewModel() {
 
-    var newTitle: MutableLiveData<String> = MutableLiveData("")
-    var newContent: MutableLiveData<String> = MutableLiveData("")
+    val newTitle: MutableLiveData<String> = MutableLiveData("")
+    val newContent: MutableLiveData<String> = MutableLiveData("")
 
-    var combined: PairLiveData<String, String> = newTitle.combine(newContent)
+    val combined: PairLiveData<String, String> = newTitle.combine(newContent)
 
-    var createIsEnabled = Transformations.map(combined) { combined ->
+    val createIsEnabled = Transformations.map(combined) { combined ->
         val title = combined.first
         val content = combined.second
 

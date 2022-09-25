@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DeleteNoteDialog(val note: Note) : DialogFragment() {
+class DeleteNoteDialog(val note: Note?) : DialogFragment() {
     private lateinit var binding: FragmentDeleteNoteDialogBinding
 
     @Inject
@@ -32,7 +32,9 @@ class DeleteNoteDialog(val note: Note) : DialogFragment() {
         binding.lifecycleOwner = this
 
         binding.okBtn.setOnClickListener {
-            viewModel.deleteNote(note)
+            if(note != null) {
+                viewModel.deleteNote(note)
+            }
             requireParentFragment().findNavController().popBackStack()
             dismiss()
         }

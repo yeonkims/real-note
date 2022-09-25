@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_note_list">
         <action
             android:id="@+id/action_noteListFragment_to_selectedNoteFragment"
-            app:destination="@id/selectedNoteFragment" />
+            app:destination="@id/selectedNoteFragment"/>
     </fragment>
     <fragment
         android:id="@+id/selectedNoteFragment"
@@ -21,6 +21,7 @@
         tools:layout="@layout/fragment_selected_note">
         <argument
             android:name="selectedNote"
+            app:nullable="true"
             app:argType="com.yeonkims.realnoteapp.data.models.Note" />
     </fragment>
 </navigation>

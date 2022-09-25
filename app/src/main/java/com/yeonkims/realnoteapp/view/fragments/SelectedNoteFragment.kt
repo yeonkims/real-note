@@ -6,14 +6,13 @@ import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.NavController
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.databinding.FragmentSelectedNoteBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.SelectedNoteViewModel
-import com.yeonkims.realnoteapp.view.dialogs.CreateNoteDialog
 import com.yeonkims.realnoteapp.view.dialogs.DeleteNoteDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -21,8 +20,15 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SelectedNoteFragment : Fragment() {
 
+
     @Inject
-    lateinit var viewModel: SelectedNoteViewModel
+    lateinit var viewModelAssistedFactory: SelectedNoteViewModel.Factory
+
+    val viewModel: SelectedNoteViewModel by viewModels {
+
+        val args: SelectedNoteFragmentArgs by navArgs()
+        SelectedNoteViewModel.provideFactory(viewModelAssistedFactory, args)
+    }
 
     private lateinit var menuProvider: SelectedNoteMenuProvider
 
@@ -31,13 +37,11 @@ class SelectedNoteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val args: SelectedNoteFragmentArgs by navArgs()
-
         val binding : FragmentSelectedNoteBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_selected_note, container, false)
 
-        val note = args.selectedNote
-        binding.note = note
+        binding.viewModel = viewModel
+        val note = viewModel.note
 
         binding.lifecycleOwner = this
 
@@ -50,11 +54,12 @@ class SelectedNoteFragment : Fragment() {
 
         val navController = findNavController()
         binding.toolbar.setNavigationOnClickListener {
+            viewModel.saveNote()
             navController.popBackStack()
         }
 
         val menuHost: MenuHost = requireActivity()
-        menuProvider = SelectedNoteMenuProvider(navController, note)
+        menuProvider = SelectedNoteMenuProvider(note)
         menuHost.addMenuProvider(menuProvider)
         return binding.root
     }
@@ -66,8 +71,7 @@ class SelectedNoteFragment : Fragment() {
     }
 
     inner class SelectedNoteMenuProvider(
-        private val navController: NavController,
-        private val note: Note,
+        private val note: Note?,
     ) : MenuProvider {
 
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

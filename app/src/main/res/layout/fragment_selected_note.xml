@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="note"
-            type="com.yeonkims.realnoteapp.data.models.Note" />
+            name="viewModel"
+            type="com.yeonkims.realnoteapp.logic.viewmodels.SelectedNoteViewModel" />
     </data>
 
     <LinearLayout
@@ -31,14 +31,15 @@
             tools:context=".view.fragments.SelectedNoteFragment">
 
 
-            <TextView
+            <EditText
                 android:id="@+id/selectedNoteTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{note.title}"
+                android:text="@={viewModel.title}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:background="@android:color/transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Hamilton lyrics" />
@@ -48,21 +49,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@{note.createdDateString}"
+                android:text="@{viewModel.createdDate}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/selectedNoteTitle"
                 tools:text="22-09-2022" />
 
-            <TextView
+            <EditText
                 android:id="@+id/selectedNoteContent"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginTop="16dp"
-                android:text="@{note.content}"
+                android:text="@={viewModel.content}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
+                android:background="@android:color/transparent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/createdDate"
                 tools:text="If you're living on your knees you RISE UP!" />

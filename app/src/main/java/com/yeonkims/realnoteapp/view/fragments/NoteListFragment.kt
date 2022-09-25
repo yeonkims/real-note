@@ -6,12 +6,17 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.yeonkims.realnoteapp.R
+import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.databinding.FragmentNoteListBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.NotesViewModel
 import com.yeonkims.realnoteapp.view.dialogs.CreateNoteDialog
 import com.yeonkims.realnoteapp.view.recyclerViewAdapter.NoteListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -46,10 +51,10 @@ class NoteListFragment : Fragment() {
                 when (menuItem.itemId) {
                     R.id.create_menu -> {
                         if(viewModel.isLoading.value == false) {
-                            CreateNoteDialog().show(
-                                parentFragmentManager, CreateNoteDialog.TAG
-                            )
                         }
+                        val action = NoteListFragmentDirections
+                            .actionNoteListFragmentToSelectedNoteFragment(null)
+                        findNavController().navigate(action)
                     }
                     else -> return false
                 }

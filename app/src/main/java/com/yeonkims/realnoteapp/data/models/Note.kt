@@ -1,6 +1,7 @@
 package com.yeonkims.realnoteapp.data.models
 
 import android.os.Parcelable
+import com.yeonkims.realnoteapp.util.helpers.format
 import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
@@ -14,11 +15,7 @@ data class Note (
 ) : Parcelable {
 
     val createdDateString: String
-        get() {
-            val pattern = "dd-MM-yyyy"
-            val simpleDateFormat = SimpleDateFormat(pattern)
-            return simpleDateFormat.format(createdDate)
-        }
+        get() = createdDate.format()
 
     override fun toString(): String = id.toString()
 }

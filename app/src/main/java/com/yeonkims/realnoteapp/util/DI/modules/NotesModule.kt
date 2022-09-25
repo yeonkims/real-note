@@ -1,5 +1,6 @@
 package com.yeonkims.realnoteapp.util.DI.modules
 
+import android.view.View
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
@@ -9,9 +10,17 @@ import com.google.gson.GsonBuilder
 import com.yeonkims.realnoteapp.data.impl.firebase_repositories.FirebaseNoteRepository
 import com.yeonkims.realnoteapp.data.impl.temp_repositories.TempNoteRepository
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.android.scopes.FragmentScoped
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -39,10 +48,12 @@ object NotesModule {
     fun provideFirebaseNoteRepository(functions: FirebaseFunctions, gson: Gson): FirebaseNoteRepository {
         return FirebaseNoteRepository(functions, gson)
     }
+}
 
-    @Provides
-    @Singleton
-    fun provideNoteRepository(noteRepositoryImpl: FirebaseNoteRepository): NoteRepository {
-        return noteRepositoryImpl
-    }
+@Module
+@InstallIn(FragmentComponent::class)
+abstract class RepositoryModule {
+
+    @Binds
+    abstract fun provideNoteRepository(impl: FirebaseNoteRepository): NoteRepository
 }
