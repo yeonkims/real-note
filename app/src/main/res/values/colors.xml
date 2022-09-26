@@ -9,4 +9,10 @@
     <color name="blackTint">#34000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="note_item_color">#FFD6D6</color>
+    <color name="title">#fe7489</color>
+    <color name="light_pink">#ffb9c3</color>
+    <color name="auth_bg">#f2f2f2</color>
+    <color name="sub_title">#465A61</color>
+    <color name="info">#788387</color>
+
 </resources>
