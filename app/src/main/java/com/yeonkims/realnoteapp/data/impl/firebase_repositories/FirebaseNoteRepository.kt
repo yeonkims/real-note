@@ -1,7 +1,6 @@
 package com.yeonkims.realnoteapp.data.impl.firebase_repositories
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +17,6 @@ class FirebaseNoteRepository @Inject constructor(
     private val gson: Gson,
 ): NoteRepository {
 
-    private var savedNotes = mutableListOf<Note>()
     private var savedNotesLiveData = MutableLiveData<List<Note>>(null)
 
     override suspend fun fetchNotes() {
@@ -48,7 +46,8 @@ class FirebaseNoteRepository @Inject constructor(
         }.toMutableList()
         savedNotesLiveData.value = modifiedSavedNotes
 
-        functions.getHttpsCallable("deleteNote").call(mapOf("id" to note.id)).addOnCompleteListener { response ->
+        functions.getHttpsCallable("deleteNote")
+            .call(mapOf("id" to note.id)).addOnCompleteListener { response ->
             if(!response.isSuccessful) {
                 savedNotesLiveData.value = originalSavedNotes
                 throw response.exception!!
@@ -56,15 +55,16 @@ class FirebaseNoteRepository @Inject constructor(
         }
     }
 
-    override suspend fun createNote(title: String, content: String) {
+    override suspend fun createNote(note: Note) {
 
-        functions.getHttpsCallable("createNote").call(mapOf("title" to title, "content" to content))
+        functions.getHttpsCallable("createNote")
+            .call(mapOf("title" to note.title, "content" to note.content))
             .addOnCompleteListener { response ->
                 if(response.isSuccessful) {
                     val data = response.result.data
                     val id = (data as HashMap<String, Int>)["ref"]
 
-                    val createdNote = Note(id!!, title, content, Date(), null)
+                    val createdNote = note.copy(id = id)
 
                     val originalSavedNotes = savedNotesLiveData.value!!
                     val updatedSaveNotes = originalSavedNotes.toMutableList()
@@ -78,20 +78,21 @@ class FirebaseNoteRepository @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    override suspend fun updateNote(id: Int, title: String, content: String) {
+    override suspend fun updateNote(note: Note) {
 
         val originalSavedNotes = savedNotesLiveData.value!!
         val editingNote = originalSavedNotes.first { existingNote ->
-            existingNote.id == id
+            existingNote.id == note.id
         }
-        val editedNote = editingNote.copy(title = title, content = content)
+        val editedNote = editingNote.copy(title = note.title, content = note.content)
 
-        functions.getHttpsCallable("updateNote").call(mapOf("id" to id, "title" to title, "content" to content))
+        functions.getHttpsCallable("updateNote")
+            .call(mapOf("id" to note.id, "title" to note.title, "content" to note.content))
             .addOnCompleteListener { response ->
                 if(response.isSuccessful) {
                     val updatedList = originalSavedNotes.toMutableList()
                     updatedList.replaceAll { note ->
-                        if(note.id == id) {
+                        if(note.id == editedNote.id) {
                             return@replaceAll editedNote
                         } else {
                             return@replaceAll note
@@ -104,6 +105,5 @@ class FirebaseNoteRepository @Inject constructor(
 
             }
     }
-
 
 }
