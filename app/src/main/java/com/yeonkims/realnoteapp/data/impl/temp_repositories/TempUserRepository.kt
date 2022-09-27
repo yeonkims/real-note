@@ -21,7 +21,7 @@ class TempUserRepository @Inject constructor(
     }
 
     override suspend fun resetPassword(email: String): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 
     override suspend fun logout() {

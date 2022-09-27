@@ -11,6 +11,8 @@ import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentLoginBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.auth.LoginViewModel
 import com.yeonkims.realnoteapp.logic.viewmodels.note.NotesViewModel
+import com.yeonkims.realnoteapp.view.dialogs.DeleteNoteDialog
+import com.yeonkims.realnoteapp.view.dialogs.ForgotPasswordDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,6 +30,11 @@ class LoginFragment : Fragment() {
         val binding: FragmentLoginBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_login, container, false
         )
+
+        binding.textForgetPassword.setOnClickListener {
+            //.showsDialog
+            ForgotPasswordDialog().show(parentFragmentManager, ForgotPasswordDialog.TAG)
+        }
 
         binding.textToSignUp.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToSignupFragment()

@@ -24,6 +24,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1871345029239766" />
         <entry key="app/src/main/res/layout/create_note_dialog.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/layout/fragment_create_note_dialog.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_forgot_password_dialog.xml" value="0.17135416666666667" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_note.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_note_list.xml" value="0.11627906976744186" />
