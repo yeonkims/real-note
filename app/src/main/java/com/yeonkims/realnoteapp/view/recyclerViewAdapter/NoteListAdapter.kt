@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.yeonkims.realnoteapp.databinding.ListItemNoteBinding
-import com.yeonkims.realnoteapp.logic.viewmodels.NotesViewModel
+import com.yeonkims.realnoteapp.logic.viewmodels.note.NotesViewModel
 import com.yeonkims.realnoteapp.view.fragments.NoteListFragmentDirections
 
 class NoteListAdapter(private val noteViewModel: NotesViewModel): RecyclerView.Adapter<ViewHolder>() {

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/noteListFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/noteListFragment"
@@ -24,4 +24,21 @@
             app:nullable="true"
             app:argType="com.yeonkims.realnoteapp.data.models.Note" />
     </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.yeonkims.realnoteapp.view.fragments.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.yeonkims.realnoteapp.view.fragments.SignupFragment"
+        android:label="SignupFragment"
+        tools:layout="@layout/fragment_signup"/>
 </navigation>

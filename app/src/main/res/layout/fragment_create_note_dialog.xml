@@ -4,7 +4,7 @@
     <data>
         <variable
             name="createNoteDialogViewModel"
-            type="com.yeonkims.realnoteapp.logic.viewmodels.CreateNoteDialogViewModel" />
+            type="com.yeonkims.realnoteapp.logic.viewmodels.note.CreateNoteDialogViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

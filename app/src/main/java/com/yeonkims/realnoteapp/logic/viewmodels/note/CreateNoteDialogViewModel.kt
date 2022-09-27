@@ -1,4 +1,4 @@
-package com.yeonkims.realnoteapp.logic.viewmodels
+package com.yeonkims.realnoteapp.logic.viewmodels.note
 
 
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
+import com.yeonkims.realnoteapp.logic.viewmodels.ErrorViewModel
 import com.yeonkims.realnoteapp.util.livedata.PairLiveData
 import com.yeonkims.realnoteapp.util.livedata.combine
 import kotlinx.coroutines.launch

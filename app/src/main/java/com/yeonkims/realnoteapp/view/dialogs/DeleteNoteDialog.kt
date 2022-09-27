@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.databinding.FragmentDeleteNoteDialogBinding
-import com.yeonkims.realnoteapp.logic.viewmodels.DeleteNoteDialogViewModel
+import com.yeonkims.realnoteapp.logic.viewmodels.note.DeleteNoteDialogViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

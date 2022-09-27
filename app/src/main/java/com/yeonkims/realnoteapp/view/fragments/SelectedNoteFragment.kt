@@ -12,7 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.databinding.FragmentSelectedNoteBinding
-import com.yeonkims.realnoteapp.logic.viewmodels.SelectedNoteViewModel
+import com.yeonkims.realnoteapp.logic.viewmodels.note.SelectedNoteViewModel
 import com.yeonkims.realnoteapp.view.dialogs.DeleteNoteDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

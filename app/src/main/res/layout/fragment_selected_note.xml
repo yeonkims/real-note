@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.yeonkims.realnoteapp.logic.viewmodels.SelectedNoteViewModel" />
+            type="com.yeonkims.realnoteapp.logic.viewmodels.note.SelectedNoteViewModel" />
     </data>
 
     <LinearLayout

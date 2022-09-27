@@ -1,8 +1,9 @@
-package com.yeonkims.realnoteapp.logic.viewmodels
+package com.yeonkims.realnoteapp.logic.viewmodels.note
 
 import androidx.lifecycle.*
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
+import com.yeonkims.realnoteapp.logic.viewmodels.ErrorViewModel
 import com.yeonkims.realnoteapp.util.helpers.format
 import com.yeonkims.realnoteapp.view.fragments.SelectedNoteFragmentArgs
 import dagger.assisted.Assisted

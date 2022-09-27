@@ -1,10 +1,11 @@
-package com.yeonkims.realnoteapp.logic.viewmodels
+package com.yeonkims.realnoteapp.logic.viewmodels.note
 
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
+import com.yeonkims.realnoteapp.logic.viewmodels.ErrorViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject

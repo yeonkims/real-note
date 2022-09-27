@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.yeonkims.realnoteapp.logic.viewmodels.auth.LoginViewModel" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/root_layout"
         android:layout_width="match_parent"
@@ -69,6 +75,7 @@
                     android:background="@drawable/edit_text_round_gray_bg"
                     android:drawableLeft="@drawable/ic_email"
                     android:drawablePadding="16dp"
+                    android:text="@={viewModel.email}"
                     android:hint="bella@gmail.com"
                     android:inputType="textEmailAddress"
                     android:padding="12dp" />
@@ -81,6 +88,7 @@
                     android:background="@drawable/edit_text_round_gray_bg"
                     android:drawableLeft="@drawable/ic_lock"
                     android:drawablePadding="16dp"
+                    android:text="@={viewModel.password}"
                     android:hint="password"
                     android:inputType="textPassword"
                     android:padding="12dp" />
@@ -102,19 +110,20 @@
                     android:backgroundTint="#ffb9c3"
                     android:text="Sign In"
                     android:textAllCaps="false"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:onClick="@{() -> viewModel.login()}"/>
             </LinearLayout>
 
             <TextView
-                android:id="@+id/text_view_sign_up"
+                android:id="@+id/text_to_sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/linearLayout2"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="12dp"
-                android:text="Don't have an account?\nSign Up Here"
+                android:text="Don't have an account?\nSign up Here"
                 android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/info" />
 
         </RelativeLayout>
