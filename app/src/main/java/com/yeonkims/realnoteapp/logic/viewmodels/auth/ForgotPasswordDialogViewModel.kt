@@ -27,10 +27,10 @@ class ForgotPasswordDialogViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 repository.resetPassword(forgotPasswordEmail!!)
-                alertViewModel.recordErrorMessage(
+                alertViewModel.recordAlertMessage(
                     "Please check your email and reset your password.")
             } catch (e: Exception) {
-                alertViewModel.recordErrorMessage(e.message)
+                alertViewModel.recordAlertMessage(e.message)
             }
         }
     }

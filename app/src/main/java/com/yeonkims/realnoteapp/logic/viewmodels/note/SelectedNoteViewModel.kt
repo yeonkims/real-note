@@ -44,7 +44,7 @@ class SelectedNoteViewModel @AssistedInject constructor(
                 }
 
             } catch (e: java.lang.Exception) {
-                alertViewModel.recordErrorMessage(e.message)
+                alertViewModel.recordAlertMessage(e.message)
             }
         }
     }

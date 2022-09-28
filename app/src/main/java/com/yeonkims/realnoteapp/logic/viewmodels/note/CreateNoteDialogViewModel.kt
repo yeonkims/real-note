@@ -36,7 +36,7 @@ class CreateNoteDialogViewModel @Inject constructor(
             try {
                 repository.createNote(Note.newNote(newTitle.value!!, newContent.value!!))
             } catch (e: Exception) {
-                alertViewModel.recordErrorMessage(e.message)
+                alertViewModel.recordAlertMessage(e.message)
             }
         }
     }

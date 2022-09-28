@@ -20,7 +20,7 @@ class DeleteNoteDialogViewModel @Inject constructor(
             try {
                 repository.deleteNote(note)
             } catch (e: Exception) {
-                alertViewModel.recordErrorMessage(e.message)
+                alertViewModel.recordAlertMessage(e.message)
             }
         }
     }

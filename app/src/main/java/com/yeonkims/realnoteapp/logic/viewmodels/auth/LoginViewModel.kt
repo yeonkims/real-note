@@ -31,16 +31,16 @@ class LoginViewModel @Inject constructor(
         val errorMessage = validators.validate()
 
         if(!errorMessage.isNullOrEmpty()) {
-            alertViewModel.recordErrorMessage(errorMessage)
+            alertViewModel.recordAlertMessage(errorMessage)
         } else {
             viewModelScope.launch {
                 val isSuccess = repository.login(loginEmail!!, loginPassword!!)
 
                 if(isSuccess) {
-                    alertViewModel.recordErrorMessage("Success!")
+                    alertViewModel.recordAlertMessage("Success!")
 
                 } else {
-                    alertViewModel.recordErrorMessage("Please check your login details")
+                    alertViewModel.recordAlertMessage("Please check your login details")
                 }
             }
         }
