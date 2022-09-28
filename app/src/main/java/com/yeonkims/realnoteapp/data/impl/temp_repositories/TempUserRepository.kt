@@ -8,7 +8,7 @@ import javax.inject.Inject
 class TempUserRepository @Inject constructor(
 
 ) : UserRepository {
-    private val fakeUser = User("1", "j")
+    private val fakeUser = User("1", "aa@aaa.com")
 
     override suspend fun login(email: String, password: String): Boolean {
         if(email == fakeUser.email)

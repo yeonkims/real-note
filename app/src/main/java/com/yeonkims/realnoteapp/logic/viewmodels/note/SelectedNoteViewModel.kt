@@ -3,7 +3,7 @@ package com.yeonkims.realnoteapp.logic.viewmodels.note
 import androidx.lifecycle.*
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
-import com.yeonkims.realnoteapp.logic.viewmodels.ErrorViewModel
+import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
 import com.yeonkims.realnoteapp.util.helpers.format
 import com.yeonkims.realnoteapp.view.fragments.SelectedNoteFragmentArgs
 import dagger.assisted.Assisted
@@ -14,7 +14,7 @@ import java.util.*
 
 class SelectedNoteViewModel @AssistedInject constructor(
     private val repository: NoteRepository,
-    private val errorViewModel: ErrorViewModel,
+    private val alertViewModel: AlertViewModel,
     @Assisted private val args: SelectedNoteFragmentArgs
 ) : ViewModel() {
 
@@ -44,7 +44,7 @@ class SelectedNoteViewModel @AssistedInject constructor(
                 }
 
             } catch (e: java.lang.Exception) {
-                errorViewModel.recordErrorMessage(e.message)
+                alertViewModel.recordErrorMessage(e.message)
             }
         }
     }

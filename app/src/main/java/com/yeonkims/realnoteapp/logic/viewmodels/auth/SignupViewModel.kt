@@ -4,13 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yeonkims.realnoteapp.data.impl.temp_repositories.TempUserRepository
-import com.yeonkims.realnoteapp.logic.viewmodels.ErrorViewModel
+import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
+import com.yeonkims.realnoteapp.util.validators.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SignupViewModel @Inject constructor(
     private val repository: TempUserRepository,
-    private val errorViewModel: ErrorViewModel
+    private val alertViewModel: AlertViewModel
 ) : ViewModel() {
 
     val email : MutableLiveData<String> = MutableLiveData("")
@@ -22,22 +23,30 @@ class SignupViewModel @Inject constructor(
         val signupEmail = email.value
         val signupPassword = password.value
         val signupPasswordConfirm = passwordConfirm.value
+        val signupFields = listOf(signupEmail, signupPassword, signupPasswordConfirm)
 
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(signupEmail).matches()) {
-            errorViewModel.recordErrorMessage("Please enter valid email")
-        }
+        val validators = listOf(
+            NonEmptyFieldsValidator(signupFields),
+            EmailValidator(signupEmail),
+            PasswordValidator(signupPassword),
+            MatchingPasswordsValidator(signupPassword, signupPasswordConfirm)
+        )
 
-        if(signupPassword.isNullOrEmpty() || signupPasswordConfirm.isNullOrEmpty()) {
-            errorViewModel.recordErrorMessage("Please fill in all the blanks")
-        }
+        val errorMessage = validators.validate()
 
-        if (signupPassword != signupPasswordConfirm) {
-            errorViewModel.recordErrorMessage("Passwords do not match")
-        }
+        if(!errorMessage.isNullOrEmpty()) {
+            alertViewModel.recordErrorMessage(errorMessage)
+        } else {
+            viewModelScope.launch {
+                val isSuccess = repository.signUp(signupEmail!!, signupPassword!!)
 
-        viewModelScope.launch {
-            val isSuccess = repository.signUp(signupEmail!!, signupPassword!!)
+                if(isSuccess) {
+                    alertViewModel.recordErrorMessage("Success!")
 
+                } else {
+                    alertViewModel.recordErrorMessage("Please check your sign up details")
+                }
+            }
         }
     }
 

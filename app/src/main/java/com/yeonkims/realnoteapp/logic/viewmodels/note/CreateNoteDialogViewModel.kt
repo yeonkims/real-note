@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
-import com.yeonkims.realnoteapp.logic.viewmodels.ErrorViewModel
+import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
 import com.yeonkims.realnoteapp.util.livedata.PairLiveData
 import com.yeonkims.realnoteapp.util.livedata.combine
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class CreateNoteDialogViewModel @Inject constructor(
     private val repository: NoteRepository,
-    private val errorViewModel: ErrorViewModel
+    private val alertViewModel: AlertViewModel
     ) : ViewModel() {
 
     val newTitle: MutableLiveData<String> = MutableLiveData("")
@@ -36,7 +36,7 @@ class CreateNoteDialogViewModel @Inject constructor(
             try {
                 repository.createNote(Note.newNote(newTitle.value!!, newContent.value!!))
             } catch (e: Exception) {
-                errorViewModel.recordErrorMessage(e.message)
+                alertViewModel.recordErrorMessage(e.message)
             }
         }
     }

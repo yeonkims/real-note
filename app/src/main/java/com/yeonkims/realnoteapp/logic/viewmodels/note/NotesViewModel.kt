@@ -3,13 +3,13 @@ package com.yeonkims.realnoteapp.logic.viewmodels.note
 import androidx.lifecycle.*
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
-import com.yeonkims.realnoteapp.logic.viewmodels.ErrorViewModel
+import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NotesViewModel @Inject constructor(
     private val repository: NoteRepository,
-    private val errorViewModel: ErrorViewModel
+    private val alertViewModel: AlertViewModel
 ) : ViewModel() {
 
     var hasError : MutableLiveData<Boolean> = MutableLiveData(false)

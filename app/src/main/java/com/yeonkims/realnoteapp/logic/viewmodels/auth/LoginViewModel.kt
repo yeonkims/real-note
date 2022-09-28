@@ -4,13 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yeonkims.realnoteapp.data.impl.temp_repositories.TempUserRepository
-import com.yeonkims.realnoteapp.logic.viewmodels.ErrorViewModel
+import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
+import com.yeonkims.realnoteapp.util.validators.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
     private val repository: TempUserRepository,
-    private val errorViewModel: ErrorViewModel
+    private val alertViewModel: AlertViewModel
 ) : ViewModel() {
 
     val email : MutableLiveData<String> = MutableLiveData("")
@@ -19,20 +20,28 @@ class LoginViewModel @Inject constructor(
     fun login() {
         val loginEmail = email.value
         val loginPassword = password.value
+        val loginFields = listOf(loginEmail, loginPassword)
 
-        if(loginEmail.isNullOrEmpty() || loginPassword.isNullOrEmpty()) {
-            errorViewModel.recordErrorMessage("Please enter valid email + password")
-            return
-        }
+        val validators = listOf(
+            NonEmptyFieldsValidator(loginFields),
+            EmailValidator(loginEmail),
+            PasswordValidator(loginPassword)
+        )
 
-        viewModelScope.launch {
-            val isSuccess = repository.login(loginEmail, loginPassword)
+        val errorMessage = validators.validate()
 
-            if(isSuccess) {
-                errorViewModel.recordErrorMessage("Success!")
+        if(!errorMessage.isNullOrEmpty()) {
+            alertViewModel.recordErrorMessage(errorMessage)
+        } else {
+            viewModelScope.launch {
+                val isSuccess = repository.login(loginEmail!!, loginPassword!!)
 
-            } else {
-                errorViewModel.recordErrorMessage("Please check your login details")
+                if(isSuccess) {
+                    alertViewModel.recordErrorMessage("Success!")
+
+                } else {
+                    alertViewModel.recordErrorMessage("Please check your login details")
+                }
             }
         }
     }

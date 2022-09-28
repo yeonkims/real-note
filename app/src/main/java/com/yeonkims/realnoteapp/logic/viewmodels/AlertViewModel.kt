@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ErrorViewModel @Inject constructor(
+class AlertViewModel @Inject constructor(
 
 ) : ViewModel() {
 

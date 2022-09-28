@@ -5,21 +5,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yeonkims.realnoteapp.data.impl.temp_repositories.TempUserRepository
-import com.yeonkims.realnoteapp.logic.viewmodels.ErrorViewModel
+import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
 import kotlinx.coroutines.launch
+import com.yeonkims.realnoteapp.util.validators.*
 import java.lang.Exception
 import javax.inject.Inject
 
 class ForgotPasswordDialogViewModel @Inject constructor(
     private val repository: TempUserRepository,
-    private val errorViewModel: ErrorViewModel
+    private val alertViewModel: AlertViewModel,
     ) : ViewModel() {
 
     val email: MutableLiveData<String> = MutableLiveData("")
 
-    fun checkValidEmail() : Boolean {
-        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email.value).matches()) {
-            errorViewModel.recordErrorMessage("Please enter valid email")
+    fun isValidEmail() : Boolean {
+        val validator = EmailValidator(email.value)
+        val errorMessage = validator.validate()
+        if(!errorMessage.isNullOrEmpty()) {
+            alertViewModel.recordErrorMessage(errorMessage)
             return false
         }
         return true
@@ -31,7 +34,7 @@ class ForgotPasswordDialogViewModel @Inject constructor(
             try {
                 repository.resetPassword(forgotPasswordEmail!!)
             } catch (e: Exception) {
-                errorViewModel.recordErrorMessage(e.message)
+                alertViewModel.recordErrorMessage(e.message)
             }
         }
     }

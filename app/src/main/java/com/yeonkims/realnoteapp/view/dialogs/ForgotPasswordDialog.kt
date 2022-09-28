@@ -30,7 +30,7 @@ class ForgotPasswordDialog : DialogFragment() {
         binding.lifecycleOwner = this
 
         binding.sendResetLinkBtn.setOnClickListener {
-            if(viewModel.checkValidEmail()) {
+            if(viewModel.isValidEmail()) {
                 viewModel.sendResetLink()
                 dismiss()
             }
