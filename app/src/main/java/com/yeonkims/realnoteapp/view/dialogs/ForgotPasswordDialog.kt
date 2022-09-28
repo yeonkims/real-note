@@ -1,9 +1,11 @@
 package com.yeonkims.realnoteapp.view.dialogs
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.yeonkims.realnoteapp.R
@@ -29,11 +31,14 @@ class ForgotPasswordDialog : DialogFragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
+        viewModel.email.observe(this) {
+            binding.TextViewAlert.isVisible = !viewModel.isValidEmail()
+            binding.sendResetLinkBtn.isEnabled = viewModel.isValidEmail()
+        }
+
         binding.sendResetLinkBtn.setOnClickListener {
-            if(viewModel.isValidEmail()) {
-                viewModel.sendResetLink()
-                dismiss()
-            }
+            viewModel.sendResetLink()
+            dismiss()
         }
 
         binding.cancelBtn.setOnClickListener {
