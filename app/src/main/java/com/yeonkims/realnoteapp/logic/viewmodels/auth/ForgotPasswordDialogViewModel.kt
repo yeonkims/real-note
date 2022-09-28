@@ -16,10 +16,10 @@ class ForgotPasswordDialogViewModel @Inject constructor(
 
     val email: MutableLiveData<String> = MutableLiveData("")
 
-    fun isValidEmail() : Boolean {
+    val isValidEmail: LiveData<Boolean> = Transformations.map(email) {
         val validator = EmailValidator(email.value)
         val errorMessage = validator.validate()
-        return errorMessage.isNullOrEmpty()
+        errorMessage.isNullOrEmpty()
     }
 
     fun sendResetLink() {
@@ -28,7 +28,8 @@ class ForgotPasswordDialogViewModel @Inject constructor(
             try {
                 repository.resetPassword(forgotPasswordEmail!!)
                 alertViewModel.recordAlertMessage(
-                    "Please check your email and reset your password.")
+                    "A password reset link was sent.\n" +
+                            "Please check your email and reset your password.")
             } catch (e: Exception) {
                 alertViewModel.recordAlertMessage(e.message)
             }
