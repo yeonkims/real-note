@@ -4,13 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yeonkims.realnoteapp.data.impl.temp_repositories.TempUserRepository
+import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
 import com.yeonkims.realnoteapp.util.validators.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SignupViewModel @Inject constructor(
-    private val repository: TempUserRepository,
+    private val repository: UserRepository,
     private val alertViewModel: AlertViewModel
 ) : ViewModel() {
 
@@ -38,14 +39,14 @@ class SignupViewModel @Inject constructor(
             alertViewModel.recordAlertMessage(errorMessage)
         } else {
             viewModelScope.launch {
-                val isSuccess = repository.signUp(signupEmail!!, signupPassword!!)
-
-                if(isSuccess) {
-                    alertViewModel.recordAlertMessage("Success!")
-
-                } else {
-                    alertViewModel.recordAlertMessage("Please check your sign up details")
+                repository.signUp(signupEmail!!, signupPassword!!) { isSuccess ->
+                    if(isSuccess) {
+                        alertViewModel.recordAlertMessage("Success!")
+                    } else {
+                        alertViewModel.recordAlertMessage("Please check your sign up details")
+                    }
                 }
+
             }
         }
     }
