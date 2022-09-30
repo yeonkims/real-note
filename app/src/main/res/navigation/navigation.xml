@@ -31,7 +31,9 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_noteListFragment"
-            app:destination="@id/noteListFragment" />
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/navigation"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment" />
@@ -40,5 +42,10 @@
         android:id="@+id/signupFragment"
         android:name="com.yeonkims.realnoteapp.view.fragments.SignupFragment"
         android:label="SignupFragment"
-        tools:layout="@layout/fragment_signup"/>
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_signupFragment_to_noteListFragment"
+            app:destination="@id/noteListFragment"
+            app:popUpTo="@id/navigation" />
+    </fragment>
 </navigation>

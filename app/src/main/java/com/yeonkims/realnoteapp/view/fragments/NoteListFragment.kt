@@ -51,6 +51,7 @@ class NoteListFragment : Fragment() {
                         val action = NoteListFragmentDirections
                             .actionNoteListFragmentToSelectedNoteFragment(null)
                         findNavController().navigate(action)
+
                     }
                     else -> return false
                 }

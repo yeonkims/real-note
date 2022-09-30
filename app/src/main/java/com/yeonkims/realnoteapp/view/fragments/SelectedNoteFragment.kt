@@ -1,6 +1,7 @@
 package com.yeonkims.realnoteapp.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
@@ -61,6 +62,10 @@ class SelectedNoteFragment : Fragment() {
         val menuHost: MenuHost = requireActivity()
         menuProvider = SelectedNoteMenuProvider(note)
         menuHost.addMenuProvider(menuProvider)
+
+        Log.i(javaClass.simpleName, "${parentFragmentManager.backStackEntryCount}")
+        Log.i(javaClass.simpleName, "${childFragmentManager.backStackEntryCount}")
+
         return binding.root
     }
 

@@ -1,6 +1,7 @@
 package com.yeonkims.realnoteapp.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +33,6 @@ class LoginFragment : Fragment() {
         )
 
         binding.textForgetPassword.setOnClickListener {
-            //.showsDialog
             ForgotPasswordDialog().show(parentFragmentManager, ForgotPasswordDialog.TAG)
         }
 
@@ -43,6 +43,14 @@ class LoginFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
+            if(currentUser != null) {
+                Log.i(javaClass.simpleName, javaClass.simpleName)
+                val action = LoginFragmentDirections.actionLoginFragmentToNoteListFragment()
+                findNavController().navigate(action)
+            }
+        }
 
         return binding.root
     }

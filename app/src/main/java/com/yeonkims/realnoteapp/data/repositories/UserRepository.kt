@@ -14,6 +14,6 @@ interface UserRepository {
 
     suspend fun logout()
 
-    fun getCurrentUser() : LiveData<User>
+    fun getCurrentUser() : LiveData<User?>
 }
 

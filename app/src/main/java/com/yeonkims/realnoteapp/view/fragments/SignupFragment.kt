@@ -34,6 +34,13 @@ class SignupFragment : Fragment() {
 
         binding.viewModel = viewModel
 
+        viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
+            if(currentUser != null) {
+                val action = SignupFragmentDirections.actionSignupFragmentToNoteListFragment()
+                findNavController().navigate(action)
+            }
+        }
+
         return binding.root
     }
 }

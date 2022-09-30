@@ -19,9 +19,9 @@ class FirebaseUserRepository @Inject constructor(
     private val gson: Gson
 ) : UserRepository {
 
-    private val currentUser = MutableLiveData<User>(null)
+    private val currentUser = MutableLiveData<User?>(null)
 
-    override fun getCurrentUser(): LiveData<User> {
+    override fun getCurrentUser(): LiveData<User?> {
         return currentUser
     }
 
@@ -74,6 +74,7 @@ class FirebaseUserRepository @Inject constructor(
 
 
     override suspend fun logout() {
-        // currentUser.value = null
+        auth.signOut()
+        currentUser.value = null
     }
 }

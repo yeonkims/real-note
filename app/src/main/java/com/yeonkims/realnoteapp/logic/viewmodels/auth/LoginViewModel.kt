@@ -16,8 +16,10 @@ class LoginViewModel @Inject constructor(
     private val alertViewModel: AlertViewModel
 ) : ViewModel() {
 
-    val email : MutableLiveData<String> = MutableLiveData("")
-    val password : MutableLiveData<String> = MutableLiveData("")
+    val email : MutableLiveData<String> = MutableLiveData("a@a.com")
+    val password : MutableLiveData<String> = MutableLiveData("123123123")
+
+    val currentUser = repository.getCurrentUser()
 
     fun login() {
         val loginEmail = email.value
