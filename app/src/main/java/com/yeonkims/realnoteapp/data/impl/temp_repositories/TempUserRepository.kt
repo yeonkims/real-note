@@ -9,21 +9,6 @@ import javax.inject.Inject
 class TempUserRepository @Inject constructor(
 
 ) : UserRepository {
-    private val fakeUser = User("1", "aa@aaa.com")
-
-//    override suspend fun login(email: String, password: String): Boolean {
-//        if(email == fakeUser.email)
-//            return true
-//        return false
-//    }
-//
-//    override suspend fun signUp(email: String, password: String): Boolean {
-//        return true
-//    }
-//
-//    override suspend fun resetPassword(email: String): Boolean {
-//        return true
-//    }
 
     override suspend fun login(
         email: String,
@@ -49,7 +34,7 @@ class TempUserRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getCurrentUser(): LiveData<User> {
+    override fun getCurrentUser(): LiveData<User?> {
         TODO("Not yet implemented")
     }
 }
