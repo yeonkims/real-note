@@ -23,7 +23,12 @@ class SignupViewModel @Inject constructor(
 
     val currentUser = repository.getCurrentUser()
 
+    var isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+
     fun signUp() {
+        if(isLoading.value == true) {
+            return
+        }
 
         val signupEmail = email.value
         val signupPassword = password.value
@@ -43,7 +48,11 @@ class SignupViewModel @Inject constructor(
             alertViewModel.recordAlertMessage(errorMessage)
         } else {
             viewModelScope.launch {
+                isLoading.value = true
+
                 repository.signUp(signupEmail!!, signupPassword!!) { isSuccess ->
+                    isLoading.value = false
+
                     if(isSuccess) {
                         alertViewModel.recordAlertMessage("Success!")
                     } else {

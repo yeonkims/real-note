@@ -33,6 +33,7 @@ class SignupFragment : Fragment() {
         }
 
         binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
             if(currentUser != null) {
