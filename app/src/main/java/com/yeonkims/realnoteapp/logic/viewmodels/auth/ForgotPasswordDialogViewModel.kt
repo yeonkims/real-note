@@ -2,7 +2,6 @@ package com.yeonkims.realnoteapp.logic.viewmodels.auth
 
 
 import androidx.lifecycle.*
-import com.yeonkims.realnoteapp.data.impl.temp_repositories.TempUserRepository
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
 import kotlinx.coroutines.launch

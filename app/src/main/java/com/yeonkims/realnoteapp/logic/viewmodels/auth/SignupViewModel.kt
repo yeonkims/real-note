@@ -3,12 +3,9 @@ package com.yeonkims.realnoteapp.logic.viewmodels.auth
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import com.yeonkims.realnoteapp.data.impl.temp_repositories.TempUserRepository
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
 import com.yeonkims.realnoteapp.util.validators.*
-import com.yeonkims.realnoteapp.view.fragments.SignupFragmentDirections
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

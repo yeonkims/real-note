@@ -1,14 +1,15 @@
 package com.yeonkims.realnoteapp.data.impl.firebase_repositories
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.gson.Gson
-import com.yeonkims.realnoteapp.data.models.Note
+import com.yeonkims.realnoteapp.data.enums.AuthState
 import com.yeonkims.realnoteapp.data.models.User
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
+import com.yeonkims.realnoteapp.util.aliases.AuthStateFunction
 import com.yeonkims.realnoteapp.util.aliases.BooleanFunction
 import java.util.HashMap
 import javax.inject.Inject
@@ -21,28 +22,45 @@ class FirebaseUserRepository @Inject constructor(
 
     private val currentUser = MutableLiveData<User?>(null)
 
-    override fun getCurrentUser(): LiveData<User?> {
-        return currentUser
+    override fun getCurrentUser(): LiveData<User?> = currentUser
+
+    private fun loadUser(firebaseUser: FirebaseUser?, onLoadUser: (User?) -> Unit) {
+        val id = firebaseUser?.uid
+        if(id != null) {
+            functions.getHttpsCallable("getUser").call(mapOf("id" to id))
+                .addOnCompleteListener { response ->
+                    val data = response.result.data
+                    val jsonData = (data as HashMap<*, *>)["res"]
+                    val dbSavedUser = gson.fromJson(
+                        gson.toJson(jsonData),
+                        Array<User>::class.java
+                    ).first()
+                    currentUser.value = dbSavedUser
+                    onLoadUser(dbSavedUser)
+                }
+        } else {
+            onLoadUser(null)
+        }
+    }
+
+    override suspend fun fetchExistingUser(onCompleteListener: AuthStateFunction) {
+        loadUser(auth.currentUser) { user ->
+            if(user == null)
+                onCompleteListener(AuthState.AUTH_NOT_FOUND)
+            else
+                onCompleteListener(AuthState.LOGGED_IN)
+        }
+
     }
 
     override suspend fun login(email: String, password: String, onCompleteListener: BooleanFunction) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val id = task.result.user?.uid
-
-                functions.getHttpsCallable("getUser").call(mapOf("id" to id))
-                    .addOnCompleteListener { response ->
-                        val data = response.result.data
-                        val jsonData = (data as HashMap<*, *>)["res"]
-                        val dbSavedUser = gson.fromJson(
-                            gson.toJson(jsonData),
-                            Array<User>::class.java
-                        ).first()
-                        currentUser.value = dbSavedUser
-                        onCompleteListener(response.isSuccessful)
-                    }
+                loadUser(task.result.user) {
+                    onCompleteListener(true)
+                }
             } else {
-                onCompleteListener(task.isSuccessful)
+                onCompleteListener(false)
             }
         }
     }

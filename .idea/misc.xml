@@ -31,6 +31,7 @@
         <entry key="app/src/main/res/layout/fragment_notes.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_selected_note.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_signup.xml" value="0.24279835390946503" />
+        <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.5280263264973958" />
         <entry key="app/src/main/res/layout/fragment_yes_no_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_note.xml" value="0.3081232492997199" />
         <entry key="app/src/main/res/layout/loading_overlay.xml" value="0.21197916666666666" />
