@@ -12,6 +12,7 @@ data class Note(
     val content: String,
     val createdDate: Date,
     val modifiedDate: Date?,
+    val userId: String,
 ) : Parcelable {
 
     val createdDateString: String
@@ -20,13 +21,14 @@ data class Note(
     override fun toString(): String = id.toString()
 
     companion object {
-        fun newNote(newTitle: String, newContent: String) : Note {
+        fun newNote(newTitle: String, newContent: String, userId: String) : Note {
             return Note(
                 id = null,
                 title = newTitle,
                 content = newContent,
                 createdDate = Date(),
-                modifiedDate = null
+                modifiedDate = null,
+                userId = userId
             )
         }
     }

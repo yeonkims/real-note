@@ -29,9 +29,10 @@ object UserModule {
 
 
 @Module
-@InstallIn(FragmentComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class UserRepositoryModule {
 
     @Binds
+    @Singleton
     abstract fun provideNoteRepository(impl: FirebaseUserRepository): UserRepository
 }

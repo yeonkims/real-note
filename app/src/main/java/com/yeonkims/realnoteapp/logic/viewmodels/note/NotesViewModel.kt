@@ -3,14 +3,18 @@ package com.yeonkims.realnoteapp.logic.viewmodels.note
 import androidx.lifecycle.*
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
+import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NotesViewModel @Inject constructor(
-    private val repository: NoteRepository,
+    private val noteRepository: NoteRepository,
+    private val userRepository: UserRepository,
     private val alertViewModel: AlertViewModel
 ) : ViewModel() {
+
+    private val currentUser = userRepository.getCurrentUser().value!!
 
     var hasError : MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -18,7 +22,7 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
 
             try {
-                repository.fetchNotes()
+                noteRepository.fetchNotes(currentUser)
             } catch (e: Exception) {
                 hasError.value = true
             }
@@ -26,7 +30,7 @@ class NotesViewModel @Inject constructor(
 
     }
 
-    val latestNotes: LiveData<List<Note>?> = repository.getNotes()
+    val latestNotes: LiveData<List<Note>?> = noteRepository.getNotes()
 
     var isLoading = Transformations.map(latestNotes) { notes ->
         return@map notes == null
@@ -44,7 +48,7 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 hasError.value = false
-                repository.fetchNotes()
+                noteRepository.fetchNotes(currentUser)
             } catch (e: Exception) {
                 hasError.value = true
             }
