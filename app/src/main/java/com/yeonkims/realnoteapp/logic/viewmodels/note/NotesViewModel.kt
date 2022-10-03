@@ -14,7 +14,8 @@ class NotesViewModel @Inject constructor(
     private val alertViewModel: AlertViewModel
 ) : ViewModel() {
 
-    private val currentUser = userRepository.getCurrentUser().value!!
+    private val currentUser
+        get() = userRepository.getCurrentUser().value!!
 
     var hasError : MutableLiveData<Boolean> = MutableLiveData(false)
 

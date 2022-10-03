@@ -27,7 +27,8 @@ class SelectedNoteViewModel @AssistedInject constructor(
 
     val note: Note? = args.selectedNote
 
-    private val userId = userRepository.getCurrentUser().value!!.id
+    private val userId
+        get() = userRepository.getCurrentUser().value!!.id
 
     val title: MutableLiveData<String> = MutableLiveData(note?.title ?: "")
     val content: MutableLiveData<String> = MutableLiveData(note?.content ?: "")

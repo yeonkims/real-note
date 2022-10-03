@@ -21,7 +21,8 @@ class CreateNoteDialogViewModel @Inject constructor(
     private val alertViewModel: AlertViewModel
     ) : ViewModel() {
 
-    private val userId = userRepository.getCurrentUser().value!!.id
+    private val userId
+        get() = userRepository.getCurrentUser().value!!.id
 
     val newTitle: MutableLiveData<String> = MutableLiveData("")
     val newContent: MutableLiveData<String> = MutableLiveData("")
