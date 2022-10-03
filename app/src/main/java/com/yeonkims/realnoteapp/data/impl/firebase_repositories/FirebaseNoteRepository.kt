@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.models.User
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
+import com.yeonkims.realnoteapp.util.helpers.toMap
 import java.util.*
 import javax.inject.Inject
 
@@ -21,7 +22,8 @@ class FirebaseNoteRepository @Inject constructor(
     private var savedNotesLiveData = MutableLiveData<List<Note>>(null)
 
     override suspend fun fetchNotes(user: User) {
-        functions.getHttpsCallable("getNotes").call(mapOf("userId" to user.id)).addOnCompleteListener { response ->
+        functions.getHttpsCallable("getNotes")
+            .call(mapOf("user_id" to user.id)).addOnCompleteListener { response ->
 
             val data = response.result.data
             val listJson = (data as HashMap<*, *>)["res"]
@@ -47,7 +49,7 @@ class FirebaseNoteRepository @Inject constructor(
         savedNotesLiveData.value = modifiedSavedNotes
 
         functions.getHttpsCallable("deleteNote")
-            .call(mapOf("id" to note.id, "userId" to note.userId)).addOnCompleteListener { response ->
+            .call(gson.toMap(note)).addOnCompleteListener { response ->
             if(!response.isSuccessful) {
                 savedNotesLiveData.value = originalSavedNotes
                 throw response.exception!!
@@ -58,7 +60,7 @@ class FirebaseNoteRepository @Inject constructor(
     override suspend fun createNote(note: Note) {
 
         functions.getHttpsCallable("createNote")
-            .call(mapOf("title" to note.title, "content" to note.content, "userId" to note.userId))
+            .call(gson.toMap(note))
             .addOnCompleteListener { response ->
                 if(response.isSuccessful) {
                     val data = response.result.data
@@ -87,7 +89,7 @@ class FirebaseNoteRepository @Inject constructor(
         val editedNote = editingNote.copy(title = note.title, content = note.content)
 
         functions.getHttpsCallable("updateNote")
-            .call(mapOf("id" to note.id, "title" to note.title, "content" to note.content))
+            .call(gson.toMap(note))
             .addOnCompleteListener { response ->
                 if(response.isSuccessful) {
                     val updatedList = originalSavedNotes.toMutableList()
