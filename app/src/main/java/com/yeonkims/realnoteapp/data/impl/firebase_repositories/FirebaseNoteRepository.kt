@@ -108,4 +108,8 @@ class FirebaseNoteRepository @Inject constructor(
             }
     }
 
+    override fun clearNotes() {
+        savedNotesLiveData.value = listOf()
+    }
+
 }

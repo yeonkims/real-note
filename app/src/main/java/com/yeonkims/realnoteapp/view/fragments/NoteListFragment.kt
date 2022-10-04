@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentNoteListBinding
+import com.yeonkims.realnoteapp.logic.viewmodels.auth.AuthViewModel
 import com.yeonkims.realnoteapp.logic.viewmodels.note.NotesViewModel
 import com.yeonkims.realnoteapp.view.recyclerViewAdapter.NoteListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +21,8 @@ class NoteListFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: NotesViewModel
+    @Inject
+    lateinit var authViewModel: AuthViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +40,7 @@ class NoteListFragment : Fragment() {
         binding.toolbar.inflateMenu(R.menu.note_list_menu)
 
         val menuHost: MenuHost = requireActivity()
+        val navController = findNavController()
 
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -44,14 +48,18 @@ class NoteListFragment : Fragment() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+
                 when (menuItem.itemId) {
                     R.id.create_menu -> {
-                        if(viewModel.isLoading.value == false) {
-                        }
                         val action = NoteListFragmentDirections
                             .actionNoteListFragmentToSelectedNoteFragment(null)
-                        findNavController().navigate(action)
+                        navController.navigate(action)
 
+                    }
+                    R.id.logout_menu -> {
+                        authViewModel.logout()
+                        val action = NoteListFragmentDirections.actionNoteListFragmentToLoginFragment()
+                        navController.navigate(action)
                     }
                     else -> return false
                 }

@@ -10,4 +10,11 @@
         android:showAsAction="always"
         tools:ignore="AppCompatResource" />
 
+    <item
+        android:id="@+id/logout_menu"
+        android:icon="@android:drawable/ic_lock_power_off"
+        android:showAsAction="always"
+        android:title="Logout"
+        tools:ignore="AppCompatResource" />
+
 </menu>
