@@ -94,6 +94,7 @@ class SelectedNoteFragment : Fragment() {
             }
             return true
         }
+
     }
 }
 

@@ -11,6 +11,8 @@ import com.yeonkims.realnoteapp.data.models.User
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.util.aliases.AuthStateFunction
 import com.yeonkims.realnoteapp.util.aliases.BooleanFunction
+import com.yeonkims.realnoteapp.util.aliases.BooleanStringFunction
+import com.yeonkims.realnoteapp.util.dev_tools.Logger
 import java.util.HashMap
 import javax.inject.Inject
 
@@ -68,9 +70,10 @@ class FirebaseUserRepository @Inject constructor(
     override suspend fun signUp(
         email: String,
         password: String,
-        onCompleteListener: BooleanFunction
+        onCompleteListener: BooleanStringFunction
     ) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            var errorMessage : String?
             if(task.isSuccessful) {
                 val id = task.result.user?.uid
                 functions.getHttpsCallable("createUser").call(mapOf("id" to id, "email" to email))
@@ -78,10 +81,12 @@ class FirebaseUserRepository @Inject constructor(
                         if(response.isSuccessful) {
                             currentUser.value = User(id!!, email)
                         }
-                        onCompleteListener(response.isSuccessful)
+                        errorMessage = response.exception?.message
+                        onCompleteListener(response.isSuccessful, errorMessage)
                     }
             } else {
-                onCompleteListener(task.isSuccessful)
+                errorMessage = task.exception?.message
+                onCompleteListener(task.isSuccessful, errorMessage)
             }
         }
     }

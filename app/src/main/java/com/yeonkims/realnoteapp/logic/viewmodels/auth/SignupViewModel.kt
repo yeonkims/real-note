@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
+import com.yeonkims.realnoteapp.util.dev_tools.Logger
 import com.yeonkims.realnoteapp.util.validators.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -47,13 +48,14 @@ class SignupViewModel @Inject constructor(
             viewModelScope.launch {
                 isLoading.value = true
 
-                repository.signUp(signupEmail!!, signupPassword!!) { isSuccess ->
+                repository.signUp(signupEmail!!, signupPassword!!) { isSuccess, errorMessage ->
                     isLoading.value = false
 
                     if(isSuccess) {
                         alertViewModel.recordAlertMessage("Success!")
                     } else {
-                        alertViewModel.recordAlertMessage("Please check your sign up details")
+                        Logger.i(errorMessage.toString())
+                        alertViewModel.recordAlertMessage(errorMessage ?: "Please check your sign up details")
                     }
                 }
 
