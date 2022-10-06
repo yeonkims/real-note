@@ -1,5 +1,31 @@
 <resources>
     <string name="app_name">Real Notes</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sub_title">use your own real note</string>
+    <string name="email_example">bella@gmail.com</string>
+    <string name="password">password</string>
+    <string name="forget_password">Forget Password?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up_here">Don\'t have an account?\nSign up Here</string>
+    <string name="confirm_password">confirm password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in_here">Already have an account?\nSign in Here</string>
+    <string name="loading_notes">Loading notes…</string>
+    <string name="enter_email_to_get_link">Please enter your email to get a reset password link.</string>
+    <string name="email">email</string>
+    <string name="enter_valid_email">Please enter valid email</string>
+    <string name="send_link">Send Link</string>
+    <string name="couldnt_load_notes">Sorry, We couldn\'t load your notes.</string>
+    <string name="you_have_no_notes">You have no notes.</string>
+    <string name="enter_content_here">Enter content here</string>
+    <string name="your_title">Your title</string>
+    <string name="delete_note_question">Delete note?</string>
+    <string name="delete_confirm">Are you sure to delete this note?</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="title">Title</string>
+    <string name="new_note">New note</string>
+    <string name="create_note">Create note</string>
+    <string name="logout">Logout</string>
+    <string name="delete_note">Delete note</string>
 </resources>

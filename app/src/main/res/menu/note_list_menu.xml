@@ -6,7 +6,7 @@
     <item
         android:id="@+id/create_menu"
         android:icon="@drawable/ic_add"
-        android:title="Create note"
+        android:title="@string/create_note"
         android:showAsAction="always"
         tools:ignore="AppCompatResource" />
 
@@ -14,7 +14,7 @@
         android:id="@+id/logout_menu"
         android:icon="@android:drawable/ic_lock_power_off"
         android:showAsAction="always"
-        android:title="Logout"
+        android:title="@string/logout"
         tools:ignore="AppCompatResource" />
 
 </menu>

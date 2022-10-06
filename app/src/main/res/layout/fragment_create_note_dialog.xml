@@ -22,12 +22,12 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:text="New note" />
+            android:text="@string/new_note" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title"
+            android:hint="@string/title"
             android:text="@={createNoteDialogViewModel.newTitle}"/>
 
         <EditText
@@ -54,7 +54,7 @@
                 android:layout_height="48dp"
                 android:layout_marginEnd="7dp"
                 android:layout_weight="1"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textSize="14sp" />
 
             <Button
@@ -63,7 +63,7 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:enabled="@{createNoteDialogViewModel.createIsEnabled}"
-                android:text="OK"
+                android:text="@string/ok"
                 android:textSize="14sp" />
 
         </LinearLayout>
