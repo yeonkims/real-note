@@ -40,7 +40,7 @@ class SignupViewModel @Inject constructor(
             MatchingPasswordsValidator(signupPassword, signupPasswordConfirm)
         )
 
-        val errorMessage = validators.validate()
+        var errorMessage = validators.validate()
 
         if(!errorMessage.isNullOrEmpty()) {
             alertViewModel.recordAlertMessage(errorMessage)
@@ -48,14 +48,14 @@ class SignupViewModel @Inject constructor(
             viewModelScope.launch {
                 isLoading.value = true
 
-                repository.signUp(signupEmail!!, signupPassword!!) { isSuccess, errorMessage ->
+                repository.signUp(signupEmail!!, signupPassword!!).addOnCompleteListener { task ->
                     isLoading.value = false
 
-                    if(isSuccess) {
+                    if(task.isSuccessful) {
                         alertViewModel.recordAlertMessage("Success!")
                     } else {
-                        Logger.i(errorMessage.toString())
-                        alertViewModel.recordAlertMessage(errorMessage ?: "Please check your sign up details")
+                        errorMessage = task.exception?.message ?: "Please check your sign up details"
+                        alertViewModel.recordAlertMessage(errorMessage)
                     }
                 }
 

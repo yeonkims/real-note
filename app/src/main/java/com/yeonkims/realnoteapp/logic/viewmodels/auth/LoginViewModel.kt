@@ -35,7 +35,7 @@ class LoginViewModel @Inject constructor(
             PasswordValidator(loginPassword)
         )
 
-        val errorMessage = validators.validate()
+        var errorMessage = validators.validate()
 
         if(!errorMessage.isNullOrEmpty()) {
             alertViewModel.recordAlertMessage(errorMessage)
@@ -43,12 +43,13 @@ class LoginViewModel @Inject constructor(
             viewModelScope.launch {
                 isLoading.value = true
 
-                repository.login(loginEmail!!, loginPassword!!) { isSuccess ->
+                repository.login(loginEmail!!, loginPassword!!).addOnCompleteListener { task ->
                     isLoading.value = false
-                    if(isSuccess) {
+                    if(task.isSuccessful) {
                         alertViewModel.recordAlertMessage("Success!")
                     } else {
-                        alertViewModel.recordAlertMessage("Please check your login details")
+                        errorMessage = task.exception?.message ?: "Please check your login details"
+                        alertViewModel.recordAlertMessage(errorMessage)
                     }
                 }
 

@@ -2,6 +2,8 @@ package com.yeonkims.realnoteapp.data.impl.firebase_repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.functions.FirebaseFunctions
@@ -13,6 +15,7 @@ import com.yeonkims.realnoteapp.util.aliases.AuthStateFunction
 import com.yeonkims.realnoteapp.util.aliases.BooleanFunction
 import com.yeonkims.realnoteapp.util.aliases.BooleanStringFunction
 import com.yeonkims.realnoteapp.util.dev_tools.Logger
+import java.lang.Exception
 import java.util.HashMap
 import javax.inject.Inject
 
@@ -55,40 +58,46 @@ class FirebaseUserRepository @Inject constructor(
 
     }
 
-    override suspend fun login(email: String, password: String, onCompleteListener: BooleanFunction) {
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                loadUser(task.result.user) {
-                    onCompleteListener(true)
+    override suspend fun login(email: String, password: String) : Task<Boolean> {
+
+        val taskCreator = TaskCompletionSource<Boolean>()
+
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { signInTask ->
+            if (signInTask.isSuccessful) {
+                loadUser(signInTask.result.user) {
+                    taskCreator.setResult(true)
                 }
             } else {
-                onCompleteListener(false)
+                taskCreator.setException(signInTask.exception!!)
             }
         }
+        return taskCreator.task
     }
 
     override suspend fun signUp(
         email: String,
         password: String,
-        onCompleteListener: BooleanStringFunction
-    ) {
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            var errorMessage : String?
-            if(task.isSuccessful) {
-                val id = task.result.user?.uid
+    ) : Task<Boolean> {
+
+        val taskCreator = TaskCompletionSource<Boolean>()
+
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { signUpTask ->
+            if(signUpTask.isSuccessful) {
+                val id = signUpTask.result.user?.uid
                 functions.getHttpsCallable("createUser").call(mapOf("id" to id, "email" to email))
-                    .addOnCompleteListener { response ->
-                        if(response.isSuccessful) {
+                    .addOnCompleteListener { createUserTask ->
+                        if(createUserTask.isSuccessful) {
                             currentUser.value = User(id!!, email)
+                            taskCreator.setResult(true)
+                        } else {
+                            taskCreator.setException(createUserTask.exception!!)
                         }
-                        errorMessage = response.exception?.message
-                        onCompleteListener(response.isSuccessful, errorMessage)
                     }
             } else {
-                errorMessage = task.exception?.message
-                onCompleteListener(task.isSuccessful, errorMessage)
+                taskCreator.setException(signUpTask.exception!!)
             }
         }
+        return taskCreator.task
     }
 
     override suspend fun resetPassword(email: String, onCompleteListener: BooleanFunction) {
