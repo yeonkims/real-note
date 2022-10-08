@@ -1,9 +1,9 @@
 package com.yeonkims.realnoteapp.logic.viewmodels.auth
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
+import com.yeonkims.realnoteapp.util.dev_tools.Logger
 import com.yeonkims.realnoteapp.util.validators.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -52,7 +52,6 @@ class LoginViewModel @Inject constructor(
                         alertViewModel.recordAlertMessage(errorMessage)
                     }
                 }
-
             }
         }
     }

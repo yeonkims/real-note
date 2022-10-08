@@ -5,15 +5,18 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.gson.Gson
 import com.yeonkims.realnoteapp.data.enums.AuthState
+import com.yeonkims.realnoteapp.data.exceptions.ExistingEmailException
+import com.yeonkims.realnoteapp.data.exceptions.LoginFailedException
+import com.yeonkims.realnoteapp.data.exceptions.SignUpFailedException
 import com.yeonkims.realnoteapp.data.models.User
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.util.aliases.AuthStateFunction
 import com.yeonkims.realnoteapp.util.aliases.BooleanFunction
-import com.yeonkims.realnoteapp.util.aliases.BooleanStringFunction
 import com.yeonkims.realnoteapp.util.dev_tools.Logger
 import java.lang.Exception
 import java.util.HashMap
@@ -58,17 +61,17 @@ class FirebaseUserRepository @Inject constructor(
 
     }
 
-    override suspend fun login(email: String, password: String) : Task<Boolean> {
+    override suspend fun login(email: String, password: String) : Task<Void> {
 
-        val taskCreator = TaskCompletionSource<Boolean>()
+        val taskCreator = TaskCompletionSource<Void>()
 
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { signInTask ->
             if (signInTask.isSuccessful) {
                 loadUser(signInTask.result.user) {
-                    taskCreator.setResult(true)
+                    taskCreator.setResult(null)
                 }
             } else {
-                taskCreator.setException(signInTask.exception!!)
+                taskCreator.setException(LoginFailedException())
             }
         }
         return taskCreator.task
@@ -77,9 +80,9 @@ class FirebaseUserRepository @Inject constructor(
     override suspend fun signUp(
         email: String,
         password: String,
-    ) : Task<Boolean> {
+    ) : Task<Void> {
 
-        val taskCreator = TaskCompletionSource<Boolean>()
+        val taskCreator = TaskCompletionSource<Void>()
 
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { signUpTask ->
             if(signUpTask.isSuccessful) {
@@ -88,13 +91,18 @@ class FirebaseUserRepository @Inject constructor(
                     .addOnCompleteListener { createUserTask ->
                         if(createUserTask.isSuccessful) {
                             currentUser.value = User(id!!, email)
-                            taskCreator.setResult(true)
+                            taskCreator.setResult(null)
                         } else {
-                            taskCreator.setException(createUserTask.exception!!)
+                            taskCreator.setException(SignUpFailedException())
                         }
                     }
             } else {
-                taskCreator.setException(signUpTask.exception!!)
+                Logger.i(signUpTask.exception.toString())
+                if(signUpTask.exception is FirebaseAuthUserCollisionException)
+                    taskCreator.setException(ExistingEmailException())
+                else
+                    taskCreator.setException(SignUpFailedException())
+
             }
         }
         return taskCreator.task
