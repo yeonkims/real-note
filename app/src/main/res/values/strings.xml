@@ -28,4 +28,8 @@
     <string name="create_note">Create note</string>
     <string name="logout">Logout</string>
     <string name="delete_note">Delete note</string>
+    <string name="logout_question">Logout?</string>
+    <string name="logout_confirm">Are you sure to logout?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 </resources>

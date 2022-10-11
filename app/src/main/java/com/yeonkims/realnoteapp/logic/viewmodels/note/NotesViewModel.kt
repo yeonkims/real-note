@@ -14,8 +14,7 @@ class NotesViewModel @Inject constructor(
     private val alertViewModel: AlertViewModel
 ) : ViewModel() {
 
-    private val currentUser
-        get() = userRepository.getCurrentUser().value!!
+    val currentUser = userRepository.getCurrentUser()
 
     var hasError : MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -23,7 +22,7 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
 
             try {
-                noteRepository.fetchNotes(currentUser)
+                noteRepository.fetchNotes(currentUser.value!!)
             } catch (e: Exception) {
                 hasError.value = true
             }
@@ -49,7 +48,7 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 hasError.value = false
-                noteRepository.fetchNotes(currentUser)
+                noteRepository.fetchNotes(currentUser.value!!)
             } catch (e: Exception) {
                 hasError.value = true
             }

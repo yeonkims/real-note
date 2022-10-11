@@ -1,6 +1,7 @@
 package com.yeonkims.realnoteapp.view.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -11,6 +12,7 @@ import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentNoteListBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.auth.AuthViewModel
 import com.yeonkims.realnoteapp.logic.viewmodels.note.NotesViewModel
+import com.yeonkims.realnoteapp.view.dialogs.LogoutDialog
 import com.yeonkims.realnoteapp.view.recyclerViewAdapter.NoteListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -42,6 +44,8 @@ class NoteListFragment : Fragment() {
         val menuHost: MenuHost = requireActivity()
         val navController = findNavController()
 
+        val fragmentManger = parentFragmentManager
+
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.note_list_menu, menu)
@@ -57,9 +61,9 @@ class NoteListFragment : Fragment() {
 
                     }
                     R.id.logout_menu -> {
-                        authViewModel.logout()
-                        val action = NoteListFragmentDirections.actionNoteListFragmentToLoginFragment()
-                        navController.navigate(action)
+                        LogoutDialog().show(
+                            fragmentManger, LogoutDialog.TAG
+                        )
                     }
                     else -> return false
                 }
@@ -67,6 +71,15 @@ class NoteListFragment : Fragment() {
             }
 
         })
+
+        viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
+            if(currentUser == null) {
+                Log.i(javaClass.simpleName, javaClass.simpleName)
+                val action = NoteListFragmentDirections.actionNoteListFragmentToLoginFragment()
+                findNavController().navigate(action)
+            }
+        }
+
         binding.notesViewModel = viewModel
         binding.noteList.adapter = adapter
         viewModel.latestNotes.observe(viewLifecycleOwner) {
