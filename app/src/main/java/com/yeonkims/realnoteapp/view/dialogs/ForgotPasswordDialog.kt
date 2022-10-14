@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ForgotPasswordDialog : DialogFragment() {
+class ForgotPasswordDialog(private val email: String?) : DialogFragment() {
     private lateinit var binding: FragmentForgotPasswordDialogBinding
 
     @Inject
@@ -26,6 +26,10 @@ class ForgotPasswordDialog : DialogFragment() {
     ): View? {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context),
             R.layout.fragment_forgot_password_dialog, null, false);
+
+        if(email != null) {
+            viewModel.email.value = email
+        }
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this

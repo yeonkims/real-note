@@ -7,14 +7,15 @@ import com.yeonkims.realnoteapp.util.dev_tools.Logger
 import com.yeonkims.realnoteapp.util.validators.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class LoginViewModel @Inject constructor(
     private val repository: UserRepository,
     private val alertViewModel: AlertViewModel
 ) : ViewModel() {
 
-    val email : MutableLiveData<String> = MutableLiveData("a@a.com")
-    val password : MutableLiveData<String> = MutableLiveData("123123123")
+    val email : MutableLiveData<String> = MutableLiveData("aa@aaa.com")
+    val password : MutableLiveData<String> = MutableLiveData("12345678")
 
     val currentUser = repository.getCurrentUser()
 

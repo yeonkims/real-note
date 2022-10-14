@@ -12,6 +12,7 @@ import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentLoginBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.auth.LoginViewModel
 import com.yeonkims.realnoteapp.logic.viewmodels.note.NotesViewModel
+import com.yeonkims.realnoteapp.util.dev_tools.Logger
 import com.yeonkims.realnoteapp.view.dialogs.DeleteNoteDialog
 import com.yeonkims.realnoteapp.view.dialogs.ForgotPasswordDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,7 @@ class LoginFragment : Fragment() {
         )
 
         binding.textForgetPassword.setOnClickListener {
-            ForgotPasswordDialog().show(parentFragmentManager, ForgotPasswordDialog.TAG)
+            ForgotPasswordDialog(viewModel.email.value).show(parentFragmentManager, ForgotPasswordDialog.TAG)
         }
 
         binding.textToSignUp.setOnClickListener {
@@ -50,6 +51,10 @@ class LoginFragment : Fragment() {
                 val action = LoginFragmentDirections.actionLoginFragmentToNoteListFragment()
                 findNavController().navigate(action)
             }
+        }
+
+        viewModel.email.observe(viewLifecycleOwner) { email ->
+            Logger.i(email)
         }
 
         return binding.root
