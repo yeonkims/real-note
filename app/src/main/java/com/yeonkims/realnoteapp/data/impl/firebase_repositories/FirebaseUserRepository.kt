@@ -109,6 +109,7 @@ class FirebaseUserRepository @Inject constructor(
     }
 
     override suspend fun resetPassword(email: String, onCompleteListener: BooleanFunction) {
+        auth.sendPasswordResetEmail(email)
         onCompleteListener(true)
     }
 
