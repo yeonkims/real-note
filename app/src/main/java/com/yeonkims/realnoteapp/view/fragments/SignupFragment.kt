@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentSignupBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.auth.SignupViewModel
+import com.yeonkims.realnoteapp.util.extension_functions.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -30,6 +31,11 @@ class SignupFragment : Fragment() {
 
         binding.textToLogin.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+        binding.rootLayout.setOnTouchListener { _, _ ->
+            hideKeyboard()
+            false
         }
 
         binding.viewModel = viewModel

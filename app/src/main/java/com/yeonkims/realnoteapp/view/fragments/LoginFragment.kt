@@ -11,12 +11,12 @@ import androidx.navigation.fragment.findNavController
 import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentLoginBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.auth.LoginViewModel
-import com.yeonkims.realnoteapp.logic.viewmodels.note.NotesViewModel
 import com.yeonkims.realnoteapp.util.dev_tools.Logger
-import com.yeonkims.realnoteapp.view.dialogs.DeleteNoteDialog
+import com.yeonkims.realnoteapp.util.extension_functions.hideKeyboard
 import com.yeonkims.realnoteapp.view.dialogs.ForgotPasswordDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -40,6 +40,11 @@ class LoginFragment : Fragment() {
         binding.textToSignUp.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToSignupFragment()
             findNavController().navigate(action)
+        }
+
+        binding.rootLayout.setOnTouchListener { _, _ ->
+            hideKeyboard()
+            false
         }
 
         binding.viewModel = viewModel
