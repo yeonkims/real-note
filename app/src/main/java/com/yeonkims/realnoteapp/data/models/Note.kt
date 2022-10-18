@@ -1,7 +1,7 @@
 package com.yeonkims.realnoteapp.data.models
 
 import android.os.Parcelable
-import com.yeonkims.realnoteapp.util.helpers.format
+import com.yeonkims.realnoteapp.util.extension_functions.format
 import kotlinx.parcelize.Parcelize
 import java.util.*
 

@@ -1,4 +1,4 @@
-package com.yeonkims.realnoteapp.util.helpers
+package com.yeonkims.realnoteapp.util.extension_functions
 
 import com.google.firebase.functions.HttpsCallableResult
 import com.google.gson.Gson

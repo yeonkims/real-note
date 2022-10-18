@@ -5,7 +5,7 @@ import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
-import com.yeonkims.realnoteapp.util.helpers.format
+import com.yeonkims.realnoteapp.util.extension_functions.format
 import com.yeonkims.realnoteapp.view.fragments.SelectedNoteFragmentArgs
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory

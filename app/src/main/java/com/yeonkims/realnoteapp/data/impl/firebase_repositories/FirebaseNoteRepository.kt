@@ -9,7 +9,7 @@ import com.google.gson.Gson
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.models.User
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
-import com.yeonkims.realnoteapp.util.helpers.toMap
+import com.yeonkims.realnoteapp.util.extension_functions.toMap
 import java.util.*
 import javax.inject.Inject
 

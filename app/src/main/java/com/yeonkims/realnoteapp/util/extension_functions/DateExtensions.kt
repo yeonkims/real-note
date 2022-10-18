@@ -1,4 +1,4 @@
-package com.yeonkims.realnoteapp.util.helpers
+package com.yeonkims.realnoteapp.util.extension_functions
 
 import java.text.SimpleDateFormat
 import java.util.*
