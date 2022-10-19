@@ -58,6 +58,12 @@ class FirebaseNoteRepository @Inject constructor(
     }
 
     override suspend fun createNote(note: Note) {
+        val originalSavedNotes = savedNotesLiveData.value!!
+        val updatedSaveNotes = originalSavedNotes.toMutableList()
+        updatedSaveNotes.add(note)
+
+        savedNotesLiveData.value = updatedSaveNotes
+
 
         functions.getHttpsCallable("createNote")
             .call(gson.toMap(note))
@@ -65,11 +71,11 @@ class FirebaseNoteRepository @Inject constructor(
                 if(response.isSuccessful) {
                     val data = response.result.data
                     val id = (data as HashMap<String, Int>)["ref"]
-
                     val createdNote = note.copy(id = id)
 
                     val originalSavedNotes = savedNotesLiveData.value!!
                     val updatedSaveNotes = originalSavedNotes.toMutableList()
+                    updatedSaveNotes.remove(note)
                     updatedSaveNotes.add(createdNote)
 
                     savedNotesLiveData.value = updatedSaveNotes
@@ -83,28 +89,29 @@ class FirebaseNoteRepository @Inject constructor(
     override suspend fun updateNote(note: Note) {
 
         val originalSavedNotes = savedNotesLiveData.value!!
+        val updatedSaveNotes = originalSavedNotes.toMutableList()
+
         val editingNote = originalSavedNotes.first { existingNote ->
             existingNote.id == note.id
         }
         val editedNote = editingNote.copy(title = note.title, content = note.content)
 
+        updatedSaveNotes.replaceAll { existingNote ->
+            if(existingNote.id == editedNote.id) {
+                return@replaceAll editedNote
+            } else {
+                return@replaceAll existingNote
+            }
+        }
+
+        savedNotesLiveData.value = updatedSaveNotes
+
         functions.getHttpsCallable("updateNote")
             .call(gson.toMap(note))
             .addOnCompleteListener { response ->
-                if(response.isSuccessful) {
-                    val updatedList = originalSavedNotes.toMutableList()
-                    updatedList.replaceAll { note ->
-                        if(note.id == editedNote.id) {
-                            return@replaceAll editedNote
-                        } else {
-                            return@replaceAll note
-                        }
-                    }
-                    savedNotesLiveData.value = updatedList
-                } else {
+                if(!(response.isSuccessful)) {
                     response.exception!!
                 }
-
             }
     }
 

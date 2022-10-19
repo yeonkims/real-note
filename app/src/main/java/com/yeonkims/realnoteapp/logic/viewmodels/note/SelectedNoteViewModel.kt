@@ -48,7 +48,7 @@ class SelectedNoteViewModel @AssistedInject constructor(
                     noteRepository.updateNote(note.copy(id = note.id, title= title.value!!,content= content.value!!))
                 }
 
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 alertViewModel.recordAlertMessage(e.message)
             }
         }
