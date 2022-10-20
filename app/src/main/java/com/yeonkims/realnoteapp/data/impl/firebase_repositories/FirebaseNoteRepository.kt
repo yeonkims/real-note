@@ -19,7 +19,7 @@ class FirebaseNoteRepository @Inject constructor(
     private val gson: Gson,
 ): NoteRepository {
 
-    private var savedNotesLiveData = MutableLiveData<List<Note>>(null)
+    private var savedNotesLiveData = MutableLiveData<List<Note>?>(null)
 
     override suspend fun fetchNotes(user: User) {
         functions.getHttpsCallable("getNotes")
@@ -116,7 +116,7 @@ class FirebaseNoteRepository @Inject constructor(
     }
 
     override fun clearNotes() {
-        savedNotesLiveData.value = listOf()
+        savedNotesLiveData.value = null
     }
 
 }
