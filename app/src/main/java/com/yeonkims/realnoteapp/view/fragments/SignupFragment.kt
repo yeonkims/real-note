@@ -33,9 +33,8 @@ class SignupFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        binding.rootLayout.setOnTouchListener { _, _ ->
+        binding.rootLayout.setOnClickListener {
             hideKeyboard()
-            false
         }
 
         binding.viewModel = viewModel

@@ -42,9 +42,8 @@ class LoginFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        binding.rootLayout.setOnTouchListener { _, _ ->
+        binding.rootLayout.setOnClickListener {
             hideKeyboard()
-            false
         }
 
         binding.viewModel = viewModel
