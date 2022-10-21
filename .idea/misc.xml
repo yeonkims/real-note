@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.1115" />
+        <entry key="app/src/main/res/drawable/ic_done.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_email.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_error.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
@@ -42,6 +43,7 @@
         <entry key="app/src/main/res/menu/menu.xml" value="0.15989583333333332" />
         <entry key="app/src/main/res/menu/nav_drawer_menu.xml" value="0.1304003170828379" />
         <entry key="app/src/main/res/menu/note_list_menu.xml" value="0.13541666666666666" />
+        <entry key="app/src/main/res/menu/selected_note_done_menu.xml" value="0.1791363830696879" />
         <entry key="app/src/main/res/menu/selected_note_menu.xml" value="0.1875" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1285" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1285" />

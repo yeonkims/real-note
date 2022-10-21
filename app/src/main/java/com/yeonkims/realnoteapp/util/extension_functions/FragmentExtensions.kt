@@ -14,5 +14,6 @@ fun Fragment.hideKeyboard() {
             activity.currentFocus!!.windowToken,
             InputMethodManager.HIDE_NOT_ALWAYS
         )
+        activity.currentFocus?.clearFocus()
     }
 }

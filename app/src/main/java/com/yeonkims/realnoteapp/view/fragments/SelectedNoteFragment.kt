@@ -3,10 +3,10 @@ package com.yeonkims.realnoteapp.view.fragments
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,13 +14,13 @@ import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.databinding.FragmentSelectedNoteBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.note.SelectedNoteViewModel
+import com.yeonkims.realnoteapp.util.extension_functions.hideKeyboard
 import com.yeonkims.realnoteapp.view.dialogs.DeleteNoteDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class SelectedNoteFragment : Fragment() {
-
 
     @Inject
     lateinit var viewModelAssistedFactory: SelectedNoteViewModel.Factory
@@ -90,7 +90,9 @@ class SelectedNoteFragment : Fragment() {
                         parentFragmentManager, DeleteNoteDialog.TAG
                     )
                 }
-                else -> return false
+                R.id.done_menu -> {
+                    hideKeyboard()
+                }
             }
             return true
         }
