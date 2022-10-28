@@ -7,6 +7,7 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentNoteListBinding
@@ -15,7 +16,6 @@ import com.yeonkims.realnoteapp.logic.viewmodels.note.NotesViewModel
 import com.yeonkims.realnoteapp.view.dialogs.LogoutDialog
 import com.yeonkims.realnoteapp.view.recyclerViewAdapter.NoteListAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,41 +36,8 @@ class NoteListFragment : Fragment() {
         val adapter = NoteListAdapter(viewModel)
 
         val activity  = requireActivity()
-
         activity.setActionBar(binding.toolbar)
-
         binding.toolbar.inflateMenu(R.menu.note_list_menu)
-
-        val menuHost: MenuHost = requireActivity()
-        val navController = findNavController()
-
-        val fragmentManger = parentFragmentManager
-
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.note_list_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-
-                when (menuItem.itemId) {
-                    R.id.create_menu -> {
-                        val action = NoteListFragmentDirections
-                            .actionNoteListFragmentToSelectedNoteFragment(null)
-                        navController.navigate(action)
-
-                    }
-                    R.id.logout_menu -> {
-                        LogoutDialog().show(
-                            fragmentManger, LogoutDialog.TAG
-                        )
-                    }
-                    else -> return false
-                }
-                return true
-            }
-
-        })
 
         viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
             if(currentUser == null) {
@@ -89,6 +56,39 @@ class NoteListFragment : Fragment() {
         binding.lifecycleOwner = this
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val menuHost: MenuHost = requireActivity()
+        val navController = findNavController()
+
+        val fragmentManger = parentFragmentManager
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.note_list_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    R.id.create_menu -> {
+                        val action = NoteListFragmentDirections
+                            .actionNoteListFragmentToSelectedNoteFragment(null)
+                        navController.navigate(action)
+
+                    }
+                    R.id.logout_menu -> {
+                        LogoutDialog().show(
+                            fragmentManger, LogoutDialog.TAG
+                        )
+                    }
+                }
+                return true
+            }
+
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
     }
 
 }

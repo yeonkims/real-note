@@ -42,13 +42,12 @@ class SelectedNoteFragment : Fragment() {
             inflater, R.layout.fragment_selected_note, container, false)
 
         binding.viewModel = viewModel
-        val note = viewModel.note
 
         binding.lifecycleOwner = this
 
         val activity  = requireActivity()
-
         activity.setActionBar(binding.toolbar)
+
         binding.toolbar.title = ""
         binding.toolbar.inflateMenu(R.menu.selected_note_menu)
         binding.toolbar.setNavigationIcon(R.drawable.ic_back)
@@ -59,14 +58,14 @@ class SelectedNoteFragment : Fragment() {
             navController.popBackStack()
         }
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val note = viewModel.note
         val menuHost: MenuHost = requireActivity()
         menuProvider = SelectedNoteMenuProvider(note)
         menuHost.addMenuProvider(menuProvider)
-
-        Log.i(javaClass.simpleName, "${parentFragmentManager.backStackEntryCount}")
-        Log.i(javaClass.simpleName, "${childFragmentManager.backStackEntryCount}")
-
-        return binding.root
     }
 
     override fun onDestroyView() {
@@ -76,7 +75,7 @@ class SelectedNoteFragment : Fragment() {
     }
 
     inner class SelectedNoteMenuProvider(
-        private val note: Note?,
+        private val note: Note?
     ) : MenuProvider {
 
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
