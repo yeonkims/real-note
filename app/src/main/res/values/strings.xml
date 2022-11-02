@@ -33,4 +33,6 @@
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="done">Done</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

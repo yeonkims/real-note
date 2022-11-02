@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/selectedNoteFragment"
         android:name="com.yeonkims.realnoteapp.view.fragments.SelectedNoteFragment"
-        android:label="fragment_selected_note"
+        android:label="SelectedNoteFragment"
         tools:layout="@layout/fragment_selected_note">
         <argument
             android:name="selectedNote"

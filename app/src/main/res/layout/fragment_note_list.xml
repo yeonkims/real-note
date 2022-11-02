@@ -10,12 +10,17 @@
             type="com.yeonkims.realnoteapp.logic.viewmodels.note.NotesViewModel" />
     </data>
 
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,4 +98,11 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:menu="@menu/logout_menu" />
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
