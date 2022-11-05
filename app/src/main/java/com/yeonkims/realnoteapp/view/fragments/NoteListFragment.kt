@@ -63,16 +63,11 @@ class NoteListFragment : Fragment() {
         actionBarDrawerToggle.syncState()
 
         binding.toolbar.title = "Real Notes"
-        binding.toolbar.inflateMenu(R.menu.create_note_menu)
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.create_menu -> {
-                    val action = NoteListFragmentDirections
-                        .actionNoteListFragmentToSelectedNoteFragment(null)
-                    navController.navigate(action)
-                }
-            }
-            true
+
+        binding.addNoteBtn.setOnClickListener {
+            val action = NoteListFragmentDirections
+                .actionNoteListFragmentToSelectedNoteFragment(null)
+            navController.navigate(action)
         }
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
