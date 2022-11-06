@@ -4,9 +4,8 @@ package com.yeonkims.realnoteapp.logic.viewmodels.auth
 import androidx.lifecycle.*
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
+import com.yeonkims.realnoteapp.util.validators.EmailValidator
 import kotlinx.coroutines.launch
-import com.yeonkims.realnoteapp.util.validators.*
-import java.lang.Exception
 import javax.inject.Inject
 
 class ForgotPasswordDialogViewModel @Inject constructor(

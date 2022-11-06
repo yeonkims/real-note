@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
-import com.yeonkims.realnoteapp.util.dev_tools.Logger
 import com.yeonkims.realnoteapp.util.validators.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject

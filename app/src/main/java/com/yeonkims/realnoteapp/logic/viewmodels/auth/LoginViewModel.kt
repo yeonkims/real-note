@@ -1,13 +1,16 @@
 package com.yeonkims.realnoteapp.logic.viewmodels.auth
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
-import com.yeonkims.realnoteapp.util.dev_tools.Logger
-import com.yeonkims.realnoteapp.util.validators.*
+import com.yeonkims.realnoteapp.util.validators.EmailValidator
+import com.yeonkims.realnoteapp.util.validators.NonEmptyFieldsValidator
+import com.yeonkims.realnoteapp.util.validators.PasswordValidator
+import com.yeonkims.realnoteapp.util.validators.validate
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class LoginViewModel @Inject constructor(
     private val repository: UserRepository,

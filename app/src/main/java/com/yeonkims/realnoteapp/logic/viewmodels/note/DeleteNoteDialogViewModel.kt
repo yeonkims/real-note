@@ -7,7 +7,6 @@ import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 class DeleteNoteDialogViewModel @Inject constructor(

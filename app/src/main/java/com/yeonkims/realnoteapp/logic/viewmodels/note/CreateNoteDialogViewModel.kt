@@ -12,7 +12,6 @@ import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
 import com.yeonkims.realnoteapp.util.livedata.PairLiveData
 import com.yeonkims.realnoteapp.util.livedata.combine
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 class CreateNoteDialogViewModel @Inject constructor(

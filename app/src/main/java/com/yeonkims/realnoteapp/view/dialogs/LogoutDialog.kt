@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.findNavController
 import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentLogoutDialogBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.auth.AuthViewModel
-import com.yeonkims.realnoteapp.view.fragments.NoteListFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

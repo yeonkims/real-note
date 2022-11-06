@@ -18,8 +18,6 @@ import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.util.aliases.AuthStateFunction
 import com.yeonkims.realnoteapp.util.aliases.BooleanFunction
 import com.yeonkims.realnoteapp.util.dev_tools.Logger
-import java.lang.Exception
-import java.util.HashMap
 import javax.inject.Inject
 
 class FirebaseUserRepository @Inject constructor(
