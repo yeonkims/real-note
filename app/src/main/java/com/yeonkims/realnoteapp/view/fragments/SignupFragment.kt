@@ -19,34 +19,45 @@ class SignupFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: SignupViewModel
+    lateinit var binding: FragmentSignupBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding: FragmentSignupBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_signup, container, false
         )
 
-        binding.textToLogin.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        binding.rootLayout.setOnClickListener {
-            hideKeyboard()
-        }
+        observeIsLoggedIn()
+        setTextToLoginOnClick()
+        hideKeyboardWhenTouchedOutside()
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        return binding.root
+    }
+
+    private fun setTextToLoginOnClick() {
+        binding.textToLogin.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    private fun observeIsLoggedIn() {
         viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
-            if(currentUser != null) {
+            if (currentUser != null) {
                 val action = SignupFragmentDirections.actionSignupFragmentToNoteListFragment()
                 findNavController().navigate(action)
             }
         }
+    }
 
-        return binding.root
+    private fun hideKeyboardWhenTouchedOutside() {
+        binding.rootLayout.setOnClickListener {
+            hideKeyboard()
+        }
     }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentLoginBinding
@@ -24,43 +25,56 @@ class LoginFragment : Fragment() {
     @Inject
     lateinit var viewModel: LoginViewModel
 
+    lateinit var binding: FragmentLoginBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding: FragmentLoginBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_login, container, false
         )
+        val navController = findNavController()
 
-        binding.textForgetPassword.setOnClickListener {
-            ForgotPasswordDialog(viewModel.email.value).show(parentFragmentManager, ForgotPasswordDialog.TAG)
-        }
-
-        binding.textToSignUp.setOnClickListener {
-            val action = LoginFragmentDirections.actionLoginFragmentToSignupFragment()
-            findNavController().navigate(action)
-        }
-
-        binding.rootLayout.setOnClickListener {
-            hideKeyboard()
-        }
+        observeIsLoggedIn(navController)
+        setOnClickListeners(navController)
+        hideKeyboardWhenTouchedOutside()
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
-            if(currentUser != null) {
-                Log.i(javaClass.simpleName, javaClass.simpleName)
-                val action = LoginFragmentDirections.actionLoginFragmentToNoteListFragment()
-                findNavController().navigate(action)
+        return binding.root
+    }
+
+    private fun hideKeyboardWhenTouchedOutside() {
+        binding.rootLayout.setOnClickListener {
+            hideKeyboard()
+        }
+    }
+
+    private fun setOnClickListeners(navController: NavController) {
+        binding.apply {
+            textToSignUp.setOnClickListener {
+                val action = LoginFragmentDirections.actionLoginFragmentToSignupFragment()
+                navController.navigate(action)
+            }
+            textForgetPassword.setOnClickListener {
+                ForgotPasswordDialog(viewModel!!.email.value).show(
+                    parentFragmentManager,
+                    ForgotPasswordDialog.TAG
+                )
             }
         }
+    }
 
-        viewModel.email.observe(viewLifecycleOwner) { email ->
-            Logger.i(email)
+    private fun observeIsLoggedIn(navController: NavController) {
+        viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
+            if (currentUser != null) {
+                Log.i(javaClass.simpleName, javaClass.simpleName)
+                val action = LoginFragmentDirections.actionLoginFragmentToNoteListFragment()
+                navController.navigate(action)
+            }
         }
-
-        return binding.root
     }
 }

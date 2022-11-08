@@ -24,9 +24,15 @@ class AuthFragment : Fragment() {
     ): View? {
         viewModel.loadInitialAuthState()
 
+        observeAuthState()
+
+        return inflater.inflate(R.layout.fragment_splash, container, false)
+    }
+
+    private fun observeAuthState() {
         viewModel.authState.observe(viewLifecycleOwner) {
 
-            when(it) {
+            when (it) {
                 AuthState.LOGGED_IN -> {
                     val action = AuthFragmentDirections.actionAuthFragmentToNoteListFragment()
                     findNavController().navigate(action)
@@ -37,8 +43,6 @@ class AuthFragment : Fragment() {
                 }
             }
         }
-
-        return inflater.inflate(R.layout.fragment_splash, container, false)
     }
 
 }

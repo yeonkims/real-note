@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentNoteListBinding
@@ -25,43 +25,56 @@ class NoteListFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: NotesViewModel
-
     @Inject
     lateinit var authViewModel: AuthViewModel
-
-    private lateinit var drawerLayout: DrawerLayout
-    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
+    lateinit var binding: FragmentNoteListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentNoteListBinding = DataBindingUtil.inflate(
+
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_note_list, container, false
         )
-
-        val adapter = NoteListAdapter(viewModel)
-
-        val activity = requireActivity()
         val navController = findNavController()
 
-        val navigationView = binding.navView
-        val fragmentManger = parentFragmentManager
+        observeIsLoggedIn(navController)
+        initDrawer()
+        setDrawerMenu()
+        setNoteList()
+        setFloatingButtonOnClick(navController)
 
-        drawerLayout = binding.drawerLayout
-        actionBarDrawerToggle = ActionBarDrawerToggle(
+        binding.notesViewModel = viewModel
+        binding.lifecycleOwner = this
+
+        return binding.root
+    }
+
+    private fun observeIsLoggedIn(navController: NavController) {
+        viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
+            if (currentUser == null) {
+                Log.i(javaClass.simpleName, javaClass.simpleName)
+                val action = NoteListFragmentDirections.actionNoteListFragmentToLoginFragment()
+                navController.navigate(action)
+            }
+        }
+    }
+
+    private fun initDrawer() {
+        val activity = requireActivity()
+
+        val drawerLayout = binding.drawerLayout
+        val actionBarDrawerToggle = ActionBarDrawerToggle(
             activity, drawerLayout, binding.toolbar, R.string.open, R.string.close)
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
+    }
 
-        binding.toolbar.title = "Real Notes"
-
-        binding.addNoteBtn.setOnClickListener {
-            val action = NoteListFragmentDirections
-                .actionNoteListFragmentToSelectedNoteFragment(null)
-            navController.navigate(action)
-        }
+    private fun setDrawerMenu() {
+        val navigationView = binding.navView
+        val fragmentManger = parentFragmentManager
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -73,23 +86,22 @@ class NoteListFragment : Fragment() {
             }
             true
         }
+    }
 
-        viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
-            if (currentUser == null) {
-                Log.i(javaClass.simpleName, javaClass.simpleName)
-                val action = NoteListFragmentDirections.actionNoteListFragmentToLoginFragment()
-                findNavController().navigate(action)
-            }
-        }
-
-        binding.notesViewModel = viewModel
+    private fun setNoteList() {
+        val adapter = NoteListAdapter(viewModel)
         binding.noteList.adapter = adapter
         viewModel.latestNotes.observe(viewLifecycleOwner) {
             adapter.notifyDataSetChanged()
         }
-
-        binding.lifecycleOwner = this
-
-        return binding.root
     }
+
+    private fun setFloatingButtonOnClick(navController: NavController) {
+        binding.addNoteBtn.setOnClickListener {
+            val action = NoteListFragmentDirections
+                .actionNoteListFragmentToSelectedNoteFragment(null)
+            navController.navigate(action)
+        }
+    }
+
 }
