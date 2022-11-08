@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LogoutDialog() : DialogFragment() {
+class LogoutDialog : DialogFragment() {
     private lateinit var binding: FragmentLogoutDialogBinding
 
     @Inject
@@ -24,21 +24,26 @@ class LogoutDialog() : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context),
-            R.layout.fragment_logout_dialog, null, false);
+            R.layout.fragment_logout_dialog, null, false)
+
+        setOnClickListeners()
 
         binding.authViewModel = authViewModel
         binding.lifecycleOwner = this
 
-        binding.yesBtn.setOnClickListener {
-            authViewModel.logout()
-            dismiss()
-        }
-
-        binding.noBtn.setOnClickListener {
-            dismiss()
-        }
-
         return binding.root
+    }
+
+    private fun setOnClickListeners() {
+        binding.apply {
+            yesBtn.setOnClickListener {
+                authViewModel!!.logout()
+                dismiss()
+            }
+            noBtn.setOnClickListener {
+                dismiss()
+            }
+        }
     }
 
     companion object {

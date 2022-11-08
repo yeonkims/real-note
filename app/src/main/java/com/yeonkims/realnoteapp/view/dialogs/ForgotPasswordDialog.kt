@@ -30,19 +30,25 @@ class ForgotPasswordDialog(private val email: String?) : DialogFragment() {
             viewModel.email.value = email
         }
 
+        setOnClickListeners()
+
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        binding.sendResetLinkBtn.setOnClickListener {
-            viewModel.sendResetLink()
-            dismiss()
-        }
-
-        binding.cancelBtn.setOnClickListener {
-            dismiss()
-        }
-
         return binding.root
+    }
+
+    private fun setOnClickListeners() {
+        binding.apply {
+            sendResetLinkBtn.setOnClickListener {
+                viewModel!!.sendResetLink()
+                dismiss()
+            }
+
+            cancelBtn.setOnClickListener {
+                dismiss()
+            }
+        }
     }
 
     companion object {

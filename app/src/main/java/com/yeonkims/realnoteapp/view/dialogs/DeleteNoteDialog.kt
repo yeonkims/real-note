@@ -28,22 +28,27 @@ class DeleteNoteDialog(val note: Note?) : DialogFragment() {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context),
             R.layout.fragment_delete_note_dialog, null, false);
 
+        setOnClickListeners()
+
         binding.deleteNoteDialogViewModel = viewModel
         binding.lifecycleOwner = this
 
-        binding.okBtn.setOnClickListener {
-            if(note != null) {
-                viewModel.deleteNote(note)
-            }
-            requireParentFragment().findNavController().popBackStack()
-            dismiss()
-        }
-
-        binding.cancelBtn.setOnClickListener {
-            dismiss()
-        }
-
         return binding.root
+    }
+
+    private fun setOnClickListeners() {
+        binding.apply {
+            okBtn.setOnClickListener {
+                if (note != null) {
+                    viewModel.deleteNote(note)
+                }
+                requireParentFragment().findNavController().popBackStack()
+                dismiss()
+            }
+            cancelBtn.setOnClickListener {
+                dismiss()
+            }
+        }
     }
 
     companion object {
