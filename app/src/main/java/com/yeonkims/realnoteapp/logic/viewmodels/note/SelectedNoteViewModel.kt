@@ -5,6 +5,7 @@ import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
+import com.yeonkims.realnoteapp.util.dev_tools.Logger
 import com.yeonkims.realnoteapp.util.extension_functions.format
 import com.yeonkims.realnoteapp.view.fragments.SelectedNoteFragmentArgs
 import dagger.assisted.Assisted
@@ -34,6 +35,17 @@ class SelectedNoteViewModel @AssistedInject constructor(
     val content: MutableLiveData<String> = MutableLiveData(note?.content ?: "")
     val createdDate = (note?.createdDate ?: Date()).format()
 
+    var selectedNote = Transformations.map(noteRepository.getNotes()) { notes ->
+        if(note?.id == null) {
+            return@map notes?.last()
+        }
+        return@map note
+    }
+
+    var isLoading = Transformations.map(selectedNote) { tempNote ->
+        return@map tempNote?.id == null
+    }
+
     fun saveNote() {
         viewModelScope.launch {
             try {
@@ -45,7 +57,8 @@ class SelectedNoteViewModel @AssistedInject constructor(
                         noteRepository.createNote(newNote)
                     }
                 } else {
-                    noteRepository.updateNote(note.copy(id = note.id, title= title.value!!,content= content.value!!))
+                    val updatedNote = selectedNote.value!!
+                    noteRepository.updateNote(updatedNote.copy(id = updatedNote.id, title= title.value!!,content= content.value!!))
                 }
 
             } catch (e: Exception) {
