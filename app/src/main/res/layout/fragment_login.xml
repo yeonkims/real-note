@@ -40,22 +40,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/dancing_script"
                     android:text="@string/sub_title"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="@color/dark_blue"
-                    app:fontFamily="cursive" />
+                    android:textColor="@color/dark_blue" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/coming_soon"
                     android:text="@string/app_name"
-                    android:textAllCaps="false"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display2"
                     android:textColor="@color/strong_pink"
-                    android:textStyle="bold"
-                    android:typeface="monospace"
-                    app:fontFamily="casual" />
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
