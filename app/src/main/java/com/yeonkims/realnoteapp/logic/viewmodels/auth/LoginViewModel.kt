@@ -49,9 +49,7 @@ class LoginViewModel @Inject constructor(
 
                 repository.login(loginEmail!!, loginPassword!!).addOnCompleteListener { task ->
                     isLoading.value = false
-                    if(task.isSuccessful) {
-                        alertViewModel.recordAlertMessage("Success!")
-                    } else {
+                    if(!(task.isSuccessful)) {
                         errorMessage = task.exception?.message ?: "Please check your login details"
                         alertViewModel.recordAlertMessage(errorMessage)
                     }

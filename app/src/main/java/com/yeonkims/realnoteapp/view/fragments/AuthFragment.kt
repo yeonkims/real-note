@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.data.enums.AuthState
 import com.yeonkims.realnoteapp.logic.viewmodels.auth.AuthViewModel
+import com.yeonkims.realnoteapp.util.extension_functions.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -35,11 +36,11 @@ class AuthFragment : Fragment() {
             when (it) {
                 AuthState.LOGGED_IN -> {
                     val action = AuthFragmentDirections.actionAuthFragmentToNoteListFragment()
-                    findNavController().navigate(action)
+                    findNavController().safeNavigate(action)
                 }
                 AuthState.AUTH_NOT_FOUND -> {
                     val action = AuthFragmentDirections.actionAuthFragmentToLoginFragment()
-                    findNavController().navigate(action)
+                    findNavController().safeNavigate(action)
                 }
             }
         }

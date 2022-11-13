@@ -11,6 +11,7 @@ import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentSignupBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.auth.SignupViewModel
 import com.yeonkims.realnoteapp.util.extension_functions.hideKeyboard
+import com.yeonkims.realnoteapp.util.extension_functions.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -50,7 +51,7 @@ class SignupFragment : Fragment() {
         viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
             if (currentUser != null) {
                 val action = SignupFragmentDirections.actionSignupFragmentToNoteListFragment()
-                findNavController().navigate(action)
+                findNavController().safeNavigate(action)
             }
         }
     }

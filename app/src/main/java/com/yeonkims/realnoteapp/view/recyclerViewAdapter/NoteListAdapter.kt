@@ -2,10 +2,13 @@ package com.yeonkims.realnoteapp.view.recyclerViewAdapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.yeonkims.realnoteapp.databinding.ListItemNoteBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.note.NotesViewModel
+import com.yeonkims.realnoteapp.util.extension_functions.safeNavigate
 import com.yeonkims.realnoteapp.view.fragments.NoteListFragmentDirections
 
 class NoteListAdapter(private val noteViewModel: NotesViewModel): RecyclerView.Adapter<ViewHolder>() {
@@ -39,7 +42,7 @@ class ViewHolder(private val binding: ListItemNoteBinding): RecyclerView.ViewHol
         binding.noteArea.setOnClickListener {
             val action =
             NoteListFragmentDirections.actionNoteListFragmentToSelectedNoteFragment(note)
-            it.findNavController().navigate(action)
+                it.findNavController().safeNavigate(action)
         }
     }
 }

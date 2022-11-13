@@ -14,6 +14,7 @@ import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentNoteListBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.auth.AuthViewModel
 import com.yeonkims.realnoteapp.logic.viewmodels.note.NotesViewModel
+import com.yeonkims.realnoteapp.util.extension_functions.safeNavigate
 import com.yeonkims.realnoteapp.view.dialogs.LogoutDialog
 import com.yeonkims.realnoteapp.view.recyclerViewAdapter.NoteListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,7 +57,7 @@ class NoteListFragment : Fragment() {
             if (currentUser == null) {
                 Log.i(javaClass.simpleName, javaClass.simpleName)
                 val action = NoteListFragmentDirections.actionNoteListFragmentToLoginFragment()
-                navController.navigate(action)
+                navController.safeNavigate(action)
             }
         }
     }
@@ -100,7 +101,7 @@ class NoteListFragment : Fragment() {
         binding.addNoteBtn.setOnClickListener {
             val action = NoteListFragmentDirections
                 .actionNoteListFragmentToSelectedNoteFragment(null)
-            navController.navigate(action)
+            navController.safeNavigate(action)
         }
     }
 

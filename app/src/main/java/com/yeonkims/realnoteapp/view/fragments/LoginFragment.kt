@@ -14,6 +14,7 @@ import com.yeonkims.realnoteapp.databinding.FragmentLoginBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.auth.LoginViewModel
 import com.yeonkims.realnoteapp.util.dev_tools.Logger
 import com.yeonkims.realnoteapp.util.extension_functions.hideKeyboard
+import com.yeonkims.realnoteapp.util.extension_functions.safeNavigate
 import com.yeonkims.realnoteapp.view.dialogs.ForgotPasswordDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -57,7 +58,7 @@ class LoginFragment : Fragment() {
         binding.apply {
             textToSignUp.setOnClickListener {
                 val action = LoginFragmentDirections.actionLoginFragmentToSignupFragment()
-                navController.navigate(action)
+                navController.safeNavigate(action)
             }
             textForgetPassword.setOnClickListener {
                 ForgotPasswordDialog(viewModel!!.email.value).show(
@@ -73,7 +74,7 @@ class LoginFragment : Fragment() {
             if (currentUser != null) {
                 Log.i(javaClass.simpleName, javaClass.simpleName)
                 val action = LoginFragmentDirections.actionLoginFragmentToNoteListFragment()
-                navController.navigate(action)
+                navController.safeNavigate(action)
             }
         }
     }
