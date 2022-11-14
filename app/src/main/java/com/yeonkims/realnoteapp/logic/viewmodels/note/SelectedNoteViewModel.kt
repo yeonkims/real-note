@@ -28,6 +28,8 @@ class SelectedNoteViewModel @AssistedInject constructor(
 
     val note: Note? = args.selectedNote
 
+    private val notes = noteRepository.getNotes()
+
     private val userId
         get() = userRepository.getCurrentUser().value!!.id
 
@@ -35,14 +37,15 @@ class SelectedNoteViewModel @AssistedInject constructor(
     val content: MutableLiveData<String> = MutableLiveData(note?.content ?: "")
     val createdDate = (note?.createdDate ?: Date()).format()
 
-    var selectedNote = Transformations.map(noteRepository.getNotes()) { notes ->
-        if(note?.id == null) {
-            return@map notes?.last()
+    private var selectedNote = Transformations.map(notes) { currentNotes ->
+        if(currentNotes!!.isNotEmpty() && note?.id == null) {
+            return@map currentNotes.last()
         }
         return@map note
     }
 
     var isLoading = Transformations.map(selectedNote) { tempNote ->
+        if(notes.value!!.isEmpty()) return@map false
         return@map tempNote?.id == null
     }
 
