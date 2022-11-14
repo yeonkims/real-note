@@ -18,6 +18,8 @@ interface UserRepository {
 
     suspend fun logout()
 
+    suspend fun deleteAccount(email: String) : Task<Void>
+
     fun getCurrentUser() : LiveData<User?>
 }
 

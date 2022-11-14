@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.gson.Gson
 import com.yeonkims.realnoteapp.data.enums.AuthState
+import com.yeonkims.realnoteapp.data.exceptions.DeleteAccountFailedException
 import com.yeonkims.realnoteapp.data.exceptions.ExistingEmailException
 import com.yeonkims.realnoteapp.data.exceptions.LoginFailedException
 import com.yeonkims.realnoteapp.data.exceptions.SignUpFailedException
@@ -18,6 +19,7 @@ import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.util.aliases.AuthStateFunction
 import com.yeonkims.realnoteapp.util.aliases.BooleanFunction
 import com.yeonkims.realnoteapp.util.dev_tools.Logger
+import com.yeonkims.realnoteapp.util.extension_functions.toMap
 import javax.inject.Inject
 
 class FirebaseUserRepository @Inject constructor(
@@ -32,7 +34,7 @@ class FirebaseUserRepository @Inject constructor(
 
     private fun loadUser(firebaseUser: FirebaseUser?, onLoadUser: (User?) -> Unit) {
         val id = firebaseUser?.uid
-        if(id != null) {
+        if (id != null) {
             functions.getHttpsCallable("getUser").call(mapOf("id" to id))
                 .addOnCompleteListener { response ->
                     val data = response.result.data
@@ -51,7 +53,7 @@ class FirebaseUserRepository @Inject constructor(
 
     override suspend fun fetchExistingUser(onCompleteListener: AuthStateFunction) {
         loadUser(auth.currentUser) { user ->
-            if(user == null)
+            if (user == null)
                 onCompleteListener(AuthState.AUTH_NOT_FOUND)
             else
                 onCompleteListener(AuthState.LOGGED_IN)
@@ -59,7 +61,7 @@ class FirebaseUserRepository @Inject constructor(
 
     }
 
-    override suspend fun login(email: String, password: String) : Task<Void> {
+    override suspend fun login(email: String, password: String): Task<Void> {
 
         val taskCreator = TaskCompletionSource<Void>()
 
@@ -78,16 +80,16 @@ class FirebaseUserRepository @Inject constructor(
     override suspend fun signUp(
         email: String,
         password: String,
-    ) : Task<Void> {
+    ): Task<Void> {
 
         val taskCreator = TaskCompletionSource<Void>()
 
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { signUpTask ->
-            if(signUpTask.isSuccessful) {
+            if (signUpTask.isSuccessful) {
                 val id = signUpTask.result.user?.uid
                 functions.getHttpsCallable("createUser").call(mapOf("id" to id, "email" to email))
                     .addOnCompleteListener { createUserTask ->
-                        if(createUserTask.isSuccessful) {
+                        if (createUserTask.isSuccessful) {
                             currentUser.value = User(id!!, email)
                             taskCreator.setResult(null)
                         } else {
@@ -96,7 +98,7 @@ class FirebaseUserRepository @Inject constructor(
                     }
             } else {
                 Logger.i(signUpTask.exception.toString())
-                if(signUpTask.exception is FirebaseAuthUserCollisionException)
+                if (signUpTask.exception is FirebaseAuthUserCollisionException)
                     taskCreator.setException(ExistingEmailException())
                 else
                     taskCreator.setException(SignUpFailedException())
@@ -115,5 +117,25 @@ class FirebaseUserRepository @Inject constructor(
     override suspend fun logout() {
         auth.signOut()
         currentUser.value = null
+    }
+
+    override suspend fun deleteAccount(email: String) : Task<Void> {
+        val taskCreator = TaskCompletionSource<Void>()
+
+        auth.currentUser!!.delete().addOnCompleteListener { deleteAccountTask ->
+            if (deleteAccountTask.isSuccessful) {
+                functions.getHttpsCallable("deleteUser")
+                    .call(mapOf("email" to email)).addOnCompleteListener { response ->
+                        if (response.isSuccessful) {
+                            taskCreator.setResult(null)
+                        } else {
+                            taskCreator.setException(DeleteAccountFailedException())
+                        }
+                    }
+            } else {
+                taskCreator.setException(DeleteAccountFailedException())
+            }
+        }
+        return taskCreator.task
     }
 }

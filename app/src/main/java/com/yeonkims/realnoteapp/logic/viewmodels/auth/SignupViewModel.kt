@@ -50,9 +50,7 @@ class SignupViewModel @Inject constructor(
                 repository.signUp(signupEmail!!, signupPassword!!).addOnCompleteListener { task ->
                     isLoading.value = false
 
-                    if(task.isSuccessful) {
-                        alertViewModel.recordAlertMessage("Success!")
-                    } else {
+                    if(!(task.isSuccessful)) {
                         errorMessage = task.exception?.message ?: "Please check your sign up details"
                         alertViewModel.recordAlertMessage(errorMessage)
                     }
