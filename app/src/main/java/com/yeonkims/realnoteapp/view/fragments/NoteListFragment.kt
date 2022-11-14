@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -14,6 +15,7 @@ import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentNoteListBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.auth.AuthViewModel
 import com.yeonkims.realnoteapp.logic.viewmodels.note.NotesViewModel
+import com.yeonkims.realnoteapp.util.dev_tools.Logger
 import com.yeonkims.realnoteapp.util.extension_functions.safeNavigate
 import com.yeonkims.realnoteapp.view.dialogs.LogoutDialog
 import com.yeonkims.realnoteapp.view.recyclerViewAdapter.NoteListAdapter
@@ -71,6 +73,12 @@ class NoteListFragment : Fragment() {
                     val action = NoteListFragmentDirections
                         .actionNoteListFragmentToSettingsFragment()
                     navController.safeNavigate(action)
+
+                    val drawerLayout = binding.drawerLayout
+
+                    if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                        drawerLayout.closeDrawer(GravityCompat.START)
+                    }
                 }
             }
             true
