@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
+            android:theme="@style/Theme.RealNoteApp.ToolbarFont"
             app:title="Real Notes" />
 
 
@@ -118,6 +119,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:menu="@menu/logout_menu" />
+            app:menu="@menu/nav_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

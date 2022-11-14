@@ -40,9 +40,8 @@ class NoteListFragment : Fragment() {
         )
         val navController = findNavController()
 
-        observeIsLoggedIn(navController)
         initDrawer()
-        setDrawerMenu()
+        setDrawerMenu(navController)
         setNoteList()
         setFloatingButtonOnClick(navController)
 
@@ -50,16 +49,6 @@ class NoteListFragment : Fragment() {
         binding.lifecycleOwner = this
 
         return binding.root
-    }
-
-    private fun observeIsLoggedIn(navController: NavController) {
-        viewModel.currentUser.observe(viewLifecycleOwner) { currentUser ->
-            if (currentUser == null) {
-                Log.i(javaClass.simpleName, javaClass.simpleName)
-                val action = NoteListFragmentDirections.actionNoteListFragmentToLoginFragment()
-                navController.safeNavigate(action)
-            }
-        }
     }
 
     private fun initDrawer() {
@@ -73,16 +62,15 @@ class NoteListFragment : Fragment() {
         actionBarDrawerToggle.syncState()
     }
 
-    private fun setDrawerMenu() {
+    private fun setDrawerMenu(navController: NavController) {
         val navigationView = binding.navView
-        val fragmentManger = parentFragmentManager
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.logout_menu -> {
-                    LogoutDialog().show(
-                        fragmentManger, LogoutDialog.TAG
-                    )
+                R.id.settings_menu -> {
+                    val action = NoteListFragmentDirections
+                        .actionNoteListFragmentToSettingsFragment()
+                    navController.safeNavigate(action)
                 }
             }
             true

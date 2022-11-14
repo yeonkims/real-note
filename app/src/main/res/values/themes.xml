@@ -15,4 +15,8 @@
         <item name="android:fontFamily">@font/noto_sans</item>
         <item name="android:includeFontPadding">false</item>
     </style>
+    <!-- Change font for Toolbar -->
+    <style name="Theme.RealNoteApp.ToolbarFont" parent="Theme.RealNoteApp">
+        <item name="android:fontFamily">@font/noto_sans_semi_bold</item>
+    </style>
 </resources>
