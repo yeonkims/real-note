@@ -10,7 +10,7 @@ import com.yeonkims.realnoteapp.R
 import com.yeonkims.realnoteapp.databinding.FragmentSettingsBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.auth.AuthViewModel
 import com.yeonkims.realnoteapp.util.extension_functions.safeNavigate
-import com.yeonkims.realnoteapp.view.dialogs.DeleteNoteDialog
+import com.yeonkims.realnoteapp.view.dialogs.DeleteAccountDialog
 import com.yeonkims.realnoteapp.view.dialogs.LogoutDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -37,6 +37,7 @@ class SettingsFragment : Fragment() {
         setToolbar()
         setBackButtonOnClick(navController)
 
+        binding.authViewModel = authViewModel
         binding.lifecycleOwner = this
 
         return binding.root
@@ -70,7 +71,12 @@ class SettingsFragment : Fragment() {
         }
 
         binding.deleteAccountBtn.setOnClickListener {
-            authViewModel.deleteAccount()
+            val fragmentManger = parentFragmentManager
+            DeleteAccountDialog(
+                authViewModel
+            ).show(
+                fragmentManger, LogoutDialog.TAG
+            )
         }
     }
 

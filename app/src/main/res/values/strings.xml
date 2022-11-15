@@ -20,7 +20,7 @@
     <string name="enter_content_here">Enter content here</string>
     <string name="your_title">Your title</string>
     <string name="delete_note_question">Delete note?</string>
-    <string name="delete_confirm">Are you sure to delete this note?</string>
+    <string name="delete_note_confirm">Are you sure to delete this note?</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="title">Title</string>
@@ -37,4 +37,8 @@
     <string name="close">Close</string>
     <string name="settings">Settings</string>
     <string name="delete_account">Delete Account</string>
+    <string name="delete_account_question">Delete account?</string>
+    <string name="delete_account_confirm">Are you sure to delete this account?\nYou can\'t undo this action.</string>
+    <string name="about">About</string>
+    <string name="version_number">Version number</string>
 </resources>
