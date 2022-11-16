@@ -16,7 +16,7 @@
     <string name="enter_valid_email">Please enter valid email</string>
     <string name="send_link">Send Link</string>
     <string name="couldnt_load_notes">Sorry, We couldn\'t load your notes.</string>
-    <string name="you_have_no_notes">You have no notes.</string>
+    <string name="you_have_no_notes">You have no notes.\nPress + button to create one.</string>
     <string name="enter_content_here">Enter content here</string>
     <string name="your_title">Your title</string>
     <string name="delete_note_question">Delete note?</string>

@@ -32,6 +32,11 @@ class NotesViewModel @Inject constructor(
 
     val latestNotes: LiveData<List<Note>?> = noteRepository.getNotes()
 
+    var noteCount = Transformations.map(latestNotes) { notes ->
+        if(notes == null) return@map "Connecting..."
+        return@map "${notes?.size} ${if(notes?.size == 1) "Note" else "Notes"}"
+    }
+
     var isLoading = Transformations.map(latestNotes) { notes ->
         return@map notes == null
     }
