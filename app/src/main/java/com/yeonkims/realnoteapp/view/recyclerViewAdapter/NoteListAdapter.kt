@@ -1,6 +1,8 @@
 package com.yeonkims.realnoteapp.view.recyclerViewAdapter
 
+import android.opengl.Visibility
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
@@ -37,7 +39,8 @@ class ViewHolder(private val binding: ListItemNoteBinding): RecyclerView.ViewHol
     fun bind(notesViewModel: NotesViewModel, position: Int) {
         val note = notesViewModel.selectedNote(position)
         binding.note = note
-
+        binding.titleVisibility = if(note.title.isBlank()) View.GONE else View.VISIBLE
+        binding.contentVisibility = if(note.content.isBlank()) View.GONE else View.VISIBLE
 
         binding.noteArea.setOnClickListener {
             val action =
