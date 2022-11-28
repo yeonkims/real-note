@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="30dp"
             android:paddingTop="3dp"
+            android:paddingBottom="2dp"
             android:text="@{viewModel.noteCount}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
 
@@ -27,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="30dp"
+            android:paddingTop="2dp"
             android:paddingBottom="3dp"
             android:text="@{viewModel.currentUser.email}"
             android:textColor="@color/dark_blue"

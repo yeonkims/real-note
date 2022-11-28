@@ -15,8 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:text="@string/delete_account_question" />
+            android:text="@string/delete_account_question"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/red" />
 
 
         <TextView
@@ -26,8 +27,8 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/delete_account_confirm"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="#000000" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"
