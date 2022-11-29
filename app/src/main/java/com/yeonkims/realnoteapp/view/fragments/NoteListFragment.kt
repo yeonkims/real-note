@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.drawerlayout.widget.DrawerLayout.DrawerListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.yeonkims.realnoteapp.R
@@ -97,7 +94,7 @@ class NoteListFragment : Fragment() {
         val adapter = NoteListAdapter(viewModel)
         binding.noteList.adapter = adapter
         viewModel.latestNotes.observe(viewLifecycleOwner) {
-            adapter.notifyDataSetChanged()
+            adapter.submitList(it)
         }
     }
 
