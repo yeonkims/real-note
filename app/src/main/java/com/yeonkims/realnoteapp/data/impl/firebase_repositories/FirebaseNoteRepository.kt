@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.gson.Gson
 import com.yeonkims.realnoteapp.data.models.Note
@@ -20,6 +21,10 @@ class FirebaseNoteRepository @Inject constructor(
 ): NoteRepository {
 
     private var savedNotesLiveData = MutableLiveData<List<Note>?>(null)
+
+    private var sortedSavedNotesLiveData = Transformations.map(savedNotesLiveData) { savedNotes ->
+        return@map savedNotes?.sortedByDescending { it.modifiedDate }
+    }
 
     override suspend fun fetchNotes(user: User) {
         functions.getHttpsCallable("getNotes")
@@ -38,7 +43,7 @@ class FirebaseNoteRepository @Inject constructor(
     }
 
     override fun getNotes(): LiveData<List<Note>?> {
-        return savedNotesLiveData
+        return sortedSavedNotesLiveData
     }
 
     override suspend fun deleteNote(note: Note) {
@@ -94,7 +99,7 @@ class FirebaseNoteRepository @Inject constructor(
         val editingNote = originalSavedNotes.first { existingNote ->
             existingNote.id == note.id
         }
-        val editedNote = editingNote.copy(title = note.title, content = note.content)
+        val editedNote = editingNote.copy(title = note.title, content = note.content, modifiedDate = Date())
 
         updatedSaveNotes.replaceAll { existingNote ->
             if(existingNote.id == editedNote.id) {

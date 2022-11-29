@@ -11,12 +11,12 @@ data class Note(
     val title: String,
     val content: String,
     val createdDate: Date,
-    val modifiedDate: Date?,
+    val modifiedDate: Date,
     val userId: String,
 ) : Parcelable {
 
-    val createdDateString: String
-        get() = createdDate.format()
+    val modifiedDateString: String
+        get() = modifiedDate.format()
 
     override fun toString(): String = id.toString()
 
@@ -27,7 +27,7 @@ data class Note(
                 title = newTitle,
                 content = newContent,
                 createdDate = Date(),
-                modifiedDate = null,
+                modifiedDate = Date(),
                 userId = userId
             )
         }
