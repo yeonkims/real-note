@@ -39,7 +39,7 @@ class SelectedNoteViewModel @AssistedInject constructor(
 
     private var selectedNote = Transformations.map(notes) { currentNotes ->
         if(currentNotes!!.isNotEmpty() && note?.id == null) {
-            return@map currentNotes.last()
+            return@map currentNotes.first()
         }
         return@map note
     }
