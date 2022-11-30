@@ -37,14 +37,16 @@ class FirebaseUserRepository @Inject constructor(
         if (id != null) {
             functions.getHttpsCallable("getUser").call(mapOf("id" to id))
                 .addOnCompleteListener { response ->
-                    val data = response.result.data
-                    val jsonData = (data as HashMap<*, *>)["res"]
-                    val dbSavedUser = gson.fromJson(
-                        gson.toJson(jsonData),
-                        Array<User>::class.java
-                    ).first()
-                    currentUser.value = dbSavedUser
-                    onLoadUser(dbSavedUser)
+                    if(response.isSuccessful) {
+                        val data = response.result.data
+                        val jsonData = (data as HashMap<*, *>)["res"]
+                        val dbSavedUser = gson.fromJson(
+                            gson.toJson(jsonData),
+                            Array<User>::class.java
+                        ).first()
+                        currentUser.value = dbSavedUser
+                        onLoadUser(dbSavedUser)
+                    }
                 }
         } else {
             onLoadUser(null)
