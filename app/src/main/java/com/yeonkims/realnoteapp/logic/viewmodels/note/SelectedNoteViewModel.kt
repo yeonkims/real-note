@@ -5,7 +5,6 @@ import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
-import com.yeonkims.realnoteapp.util.dev_tools.Logger
 import com.yeonkims.realnoteapp.util.extension_functions.format
 import com.yeonkims.realnoteapp.view.fragments.SelectedNoteFragmentArgs
 import dagger.assisted.Assisted
@@ -35,7 +34,7 @@ class SelectedNoteViewModel @AssistedInject constructor(
 
     val title: MutableLiveData<String> = MutableLiveData(note?.title ?: "")
     val content: MutableLiveData<String> = MutableLiveData(note?.content ?: "")
-    val createdDate = (note?.createdDate ?: Date()).format()
+    val modifiedDate = (note?.modifiedDate ?: Date()).format()
 
     private var selectedNote = Transformations.map(notes) { currentNotes ->
         if(currentNotes!!.isNotEmpty() && note?.id == null) {
@@ -52,16 +51,18 @@ class SelectedNoteViewModel @AssistedInject constructor(
     fun saveNote() {
         viewModelScope.launch {
             try {
+                val newTitle = title.value!!
+                val newContent = content.value!!
                 if(note == null) {
-                    val newTitle = title.value!!
-                    val newContent = content.value!!
                     if(!(newTitle.isEmpty() && newContent.isEmpty())) {
                         val newNote = Note.newNote(newTitle, newContent, userId)
                         noteRepository.createNote(newNote)
                     }
                 } else {
                     val updatedNote = selectedNote.value!!
-                    noteRepository.updateNote(updatedNote.copy(id = updatedNote.id, title= title.value!!,content= content.value!!))
+                    if(updatedNote.title == newTitle && updatedNote.content == newContent)
+                        return@launch
+                    noteRepository.updateNote(updatedNote.copy(id = updatedNote.id, title= newTitle,content= newContent))
                 }
 
             } catch (e: Exception) {

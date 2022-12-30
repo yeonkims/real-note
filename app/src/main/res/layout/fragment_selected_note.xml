@@ -53,11 +53,11 @@
                 tools:text="Hamilton lyrics" />
 
             <TextView
-                android:id="@+id/createdDate"
+                android:id="@+id/modifiedDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@{viewModel.createdDate}"
+                android:text="@{viewModel.modifiedDate}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/selectedNoteTitle"
@@ -76,7 +76,7 @@
                 android:gravity="top"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/createdDate"
+                app:layout_constraintTop_toBottomOf="@+id/modifiedDate"
                 tools:text="If you're living on your knees you RISE UP!" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
