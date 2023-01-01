@@ -96,6 +96,7 @@ class SelectedNoteFragment : Fragment() {
                     )
                 }
                 R.id.done_menu -> {
+                    viewModel.saveNote()
                     hideKeyboard()
                 }
             }

@@ -34,7 +34,7 @@ class SelectedNoteViewModel @AssistedInject constructor(
 
     val title: MutableLiveData<String> = MutableLiveData(note?.title ?: "")
     val content: MutableLiveData<String> = MutableLiveData(note?.content ?: "")
-    val modifiedDate = (note?.modifiedDate ?: Date()).format()
+    var modifiedDate: MutableLiveData<String> = MutableLiveData((note?.modifiedDate ?: Date()).format())
 
     private var selectedNote = Transformations.map(notes) { currentNotes ->
         if(currentNotes!!.isNotEmpty() && note?.id == null) {
@@ -62,6 +62,7 @@ class SelectedNoteViewModel @AssistedInject constructor(
                     val updatedNote = selectedNote.value!!
                     if(updatedNote.title == newTitle && updatedNote.content == newContent)
                         return@launch
+                    modifiedDate.value = Date().format()
                     noteRepository.updateNote(updatedNote.copy(id = updatedNote.id, title= newTitle,content= newContent))
                 }
 
