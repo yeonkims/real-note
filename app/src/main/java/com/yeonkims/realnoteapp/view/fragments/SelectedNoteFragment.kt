@@ -62,7 +62,6 @@ class SelectedNoteFragment : Fragment() {
     private fun setBackButtonOnClick() {
         val navController = findNavController()
         binding.toolbar.setNavigationOnClickListener {
-            viewModel.saveNote()
             navController.popBackStack()
         }
     }
@@ -77,6 +76,7 @@ class SelectedNoteFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         val menuHost: MenuHost = requireActivity()
+        viewModel.saveNote()
         menuHost.removeMenuProvider(menuProvider)
     }
 
