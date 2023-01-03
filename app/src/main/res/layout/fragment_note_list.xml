@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            android:theme="@style/Theme.RealNoteApp.ToolbarFont" />
+            android:theme="@style/Theme.RealNoteApp.ToolbarFont"
+            bind:isVisible="@{!notesViewModel.isLoading &amp;&amp; !notesViewModel.hasError}" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -109,7 +110,8 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
-                layout="@layout/loading_overlay"
+                layout="@layout/splash_overlay"
+                bind:message="@{@string/loading_notes}"
                 bind:isVisible="@{notesViewModel.isLoading &amp;&amp; !notesViewModel.hasError}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
