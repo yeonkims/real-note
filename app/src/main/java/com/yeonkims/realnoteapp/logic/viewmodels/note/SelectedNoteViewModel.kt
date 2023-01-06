@@ -25,7 +25,7 @@ class SelectedNoteViewModel @AssistedInject constructor(
         fun create(args: SelectedNoteFragmentArgs): SelectedNoteViewModel
     }
 
-    val note: Note? = args.selectedNote
+    var note: Note? = args.selectedNote
 
     private val notes = noteRepository.getNotes()
 
@@ -37,7 +37,7 @@ class SelectedNoteViewModel @AssistedInject constructor(
     var modifiedDate: MutableLiveData<String> = MutableLiveData((note?.modifiedDate ?: Date()).format())
 
     private var selectedNote = Transformations.map(notes) { currentNotes ->
-        if(currentNotes!!.isNotEmpty() && note?.id == null) {
+        if(currentNotes!!.isNotEmpty() && note != null && note!!.id == null) {
             return@map currentNotes.first()
         }
         return@map note
@@ -45,7 +45,7 @@ class SelectedNoteViewModel @AssistedInject constructor(
 
     var isLoading = Transformations.map(selectedNote) { tempNote ->
         if(notes.value!!.isEmpty()) return@map false
-        return@map tempNote?.id == null
+        return@map tempNote != null && tempNote.id == null
     }
 
     fun saveNote() {
@@ -53,10 +53,11 @@ class SelectedNoteViewModel @AssistedInject constructor(
             try {
                 val newTitle = title.value!!
                 val newContent = content.value!!
-                if(note == null) {
+                if(selectedNote.value == null && note == null) {
                     if(!(newTitle.isEmpty() && newContent.isEmpty())) {
                         val newNote = Note.newNote(newTitle, newContent, userId)
                         noteRepository.createNote(newNote)
+                        note = newNote
                     }
                 } else {
                     val updatedNote = selectedNote.value!!

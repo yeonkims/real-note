@@ -1,7 +1,9 @@
 package com.yeonkims.realnoteapp.view.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
@@ -23,6 +25,7 @@ class SelectedNoteFragment : Fragment() {
 
     @Inject
     lateinit var viewModelAssistedFactory: SelectedNoteViewModel.Factory
+    private lateinit var callback: OnBackPressedCallback
 
     val viewModel: SelectedNoteViewModel by viewModels {
 
@@ -51,6 +54,23 @@ class SelectedNoteFragment : Fragment() {
         return binding.root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewModel.saveNote()
+                isEnabled = false
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        callback.remove()
+        super.onDetach()
+    }
+
     private fun setToolbar() {
         val activity = requireActivity()
         activity.setActionBar(binding.toolbar)
@@ -62,6 +82,7 @@ class SelectedNoteFragment : Fragment() {
     private fun setBackButtonOnClick() {
         val navController = findNavController()
         binding.toolbar.setNavigationOnClickListener {
+            viewModel.saveNote()
             navController.popBackStack()
         }
     }
@@ -76,7 +97,6 @@ class SelectedNoteFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         val menuHost: MenuHost = requireActivity()
-        viewModel.saveNote()
         menuHost.removeMenuProvider(menuProvider)
     }
 

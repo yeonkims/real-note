@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         val navController = navHostFragment.navController
 
-        Log.i(javaClass.simpleName, "${navController.previousBackStackEntry}")
         if(navController.previousBackStackEntry == null) {
             if (backPressedTime + 2000 > System.currentTimeMillis()) {
                 finish()
