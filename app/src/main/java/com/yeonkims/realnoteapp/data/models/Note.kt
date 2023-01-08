@@ -18,9 +18,23 @@ data class Note(
     val modifiedDateString: String
         get() = modifiedDate.format()
 
+    fun hasIdenticalNoteData(otherNote: Note) : Boolean {
+        return title == otherNote.title &&  content == otherNote.content && createdDate == otherNote.createdDate
+    }
+
     override fun toString(): String = id.toString()
 
     companion object {
+        fun empty(userId: String) : Note {
+            return Note(
+                id = null,
+                title = "",
+                content = "",
+                createdDate = Date(),
+                modifiedDate = Date(),
+                userId= userId,
+            )
+        }
         fun newNote(newTitle: String, newContent: String, userId: String) : Note {
             return Note(
                 id = null,

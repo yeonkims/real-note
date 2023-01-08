@@ -5,7 +5,6 @@ import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.data.repositories.NoteRepository
 import com.yeonkims.realnoteapp.data.repositories.UserRepository
 import com.yeonkims.realnoteapp.logic.viewmodels.AlertViewModel
-import com.yeonkims.realnoteapp.util.extension_functions.format
 import com.yeonkims.realnoteapp.view.fragments.SelectedNoteFragmentArgs
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -25,47 +24,74 @@ class SelectedNoteViewModel @AssistedInject constructor(
         fun create(args: SelectedNoteFragmentArgs): SelectedNoteViewModel
     }
 
-    var note: Note? = args.selectedNote
-
-    private val notes = noteRepository.getNotes()
+    private val existingNote: Note? = args.selectedNote
 
     private val userId
         get() = userRepository.getCurrentUser().value!!.id
 
-    val title: MutableLiveData<String> = MutableLiveData(note?.title ?: "")
-    val content: MutableLiveData<String> = MutableLiveData(note?.content ?: "")
-    var modifiedDate: MutableLiveData<String> = MutableLiveData((note?.modifiedDate ?: Date()).format())
+    private var isDeleted = false
 
-    private var selectedNote = Transformations.map(notes) { currentNotes ->
-        if(currentNotes!!.isNotEmpty() && note != null && note!!.id == null) {
-            return@map currentNotes.first()
-        }
-        return@map note
+
+    val currentNote: MutableLiveData<Note> = MutableLiveData(existingNote ?: Note.empty(userId))
+
+    val isLoading: LiveData<Boolean> = Transformations.map(currentNote) {
+        return@map it.id == null && (it.title.isNotEmpty() || it.content.isNotEmpty())
     }
 
-    var isLoading = Transformations.map(selectedNote) { tempNote ->
-        if(notes.value!!.isEmpty()) return@map false
-        return@map tempNote != null && tempNote.id == null
-    }
+    val title: MutableLiveData<String> = MutableLiveData(currentNote.value?.title)
+    val content: MutableLiveData<String> = MutableLiveData(currentNote.value?.content)
+
+    val latestNotes = noteRepository.getNotes()
 
     fun saveNote() {
+        if(isLoading.value == true || isDeleted)
+            return
+
         viewModelScope.launch {
             try {
-                val newTitle = title.value!!
-                val newContent = content.value!!
-                if(selectedNote.value == null && note == null) {
-                    if(!(newTitle.isEmpty() && newContent.isEmpty())) {
-                        val newNote = Note.newNote(newTitle, newContent, userId)
-                        noteRepository.createNote(newNote)
-                        note = newNote
-                    }
-                } else {
-                    val updatedNote = selectedNote.value!!
-                    if(updatedNote.title == newTitle && updatedNote.content == newContent)
-                        return@launch
-                    modifiedDate.value = Date().format()
-                    noteRepository.updateNote(updatedNote.copy(id = updatedNote.id, title= newTitle,content= newContent))
+                val initialNote = currentNote.value!!
+
+                val noteToSave = initialNote.copy(
+                    title = title.value!!,
+                    content = content.value!!,
+                    modifiedDate = Date(),
+                )
+
+                if(initialNote.hasIdenticalNoteData(noteToSave)) {
+                    return@launch
                 }
+
+                val shouldCreateNewNote = noteToSave.id == null
+
+                if(shouldCreateNewNote) {
+                    noteRepository.createNote(noteToSave)
+                } else {
+                    noteRepository.updateNote(noteToSave)
+                }
+
+                currentNote.value = noteToSave
+
+            } catch (e: Exception) {
+                alertViewModel.recordAlertMessage(e.message)
+            }
+        }
+    }
+
+    fun deleteNote() {
+        if(isLoading.value == true || isDeleted)
+            return
+
+        viewModelScope.launch {
+            try {
+                val noteToDelete = currentNote.value!!
+
+                val shouldDeleteFromRepository = noteToDelete.id != null
+
+                if(shouldDeleteFromRepository) {
+                    noteRepository.deleteNote(noteToDelete)
+                }
+
+                isDeleted = true
 
             } catch (e: Exception) {
                 alertViewModel.recordAlertMessage(e.message)
@@ -84,5 +110,4 @@ class SelectedNoteViewModel @AssistedInject constructor(
             }
         }
     }
-
 }

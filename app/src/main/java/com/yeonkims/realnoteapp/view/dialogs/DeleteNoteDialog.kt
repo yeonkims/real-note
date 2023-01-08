@@ -8,18 +8,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.yeonkims.realnoteapp.R
-import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.databinding.FragmentDeleteNoteDialogBinding
-import com.yeonkims.realnoteapp.logic.viewmodels.note.DeleteNoteDialogViewModel
+import com.yeonkims.realnoteapp.logic.viewmodels.note.SelectedNoteViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class DeleteNoteDialog(val note: Note?) : DialogFragment() {
+class DeleteNoteDialog(val viewModel: SelectedNoteViewModel) : DialogFragment() {
     private lateinit var binding: FragmentDeleteNoteDialogBinding
-
-    @Inject
-    lateinit var viewModel : DeleteNoteDialogViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +25,7 @@ class DeleteNoteDialog(val note: Note?) : DialogFragment() {
 
         setOnClickListeners()
 
-        binding.deleteNoteDialogViewModel = viewModel
+        binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
         return binding.root
@@ -39,9 +34,7 @@ class DeleteNoteDialog(val note: Note?) : DialogFragment() {
     private fun setOnClickListeners() {
         binding.apply {
             okBtn.setOnClickListener {
-                if (note != null) {
-                    viewModel.deleteNote(note)
-                }
+                this@DeleteNoteDialog.viewModel.deleteNote()
                 requireParentFragment().findNavController().popBackStack()
                 dismiss()
             }

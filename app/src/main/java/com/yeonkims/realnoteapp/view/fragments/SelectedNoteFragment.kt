@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.yeonkims.realnoteapp.R
-import com.yeonkims.realnoteapp.data.models.Note
 import com.yeonkims.realnoteapp.databinding.FragmentSelectedNoteBinding
 import com.yeonkims.realnoteapp.logic.viewmodels.note.SelectedNoteViewModel
 import com.yeonkims.realnoteapp.util.extension_functions.hideKeyboard
@@ -47,6 +46,8 @@ class SelectedNoteFragment : Fragment() {
 
         setToolbar()
         setBackButtonOnClick()
+
+        observeNoteUpload()
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -87,10 +88,26 @@ class SelectedNoteFragment : Fragment() {
         }
     }
 
+    private fun observeNoteUpload() {
+        viewModel.latestNotes.observe(viewLifecycleOwner) {
+
+            val hasSavedNotesList = it?.isNotEmpty() == true
+            val canCheckLatestNotes = viewModel.isLoading.value!! && hasSavedNotesList
+
+            if(canCheckLatestNotes) {
+                val uploadedNote = it!!.first()!!
+                val uploadingNote = viewModel.currentNote.value!!
+
+                if(uploadingNote.id == null && uploadedNote.id != null && uploadingNote.hasIdenticalNoteData(uploadedNote)) {
+                    viewModel.currentNote.value = uploadedNote
+                }
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val note = viewModel.note
         val menuHost: MenuHost = requireActivity()
-        menuProvider = SelectedNoteMenuProvider(note)
+        menuProvider = SelectedNoteMenuProvider()
         menuHost.addMenuProvider(menuProvider)
     }
 
@@ -100,9 +117,7 @@ class SelectedNoteFragment : Fragment() {
         menuHost.removeMenuProvider(menuProvider)
     }
 
-    inner class SelectedNoteMenuProvider(
-        private val note: Note?
-    ) : MenuProvider {
+    inner class SelectedNoteMenuProvider : MenuProvider {
 
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.selected_note_menu, menu)
@@ -111,7 +126,7 @@ class SelectedNoteFragment : Fragment() {
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             when (menuItem.itemId) {
                 R.id.delete_menu -> {
-                    DeleteNoteDialog(note).show(
+                    DeleteNoteDialog(viewModel).show(
                         parentFragmentManager, DeleteNoteDialog.TAG
                     )
                 }

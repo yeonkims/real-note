@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="deleteNoteDialogViewModel"
-            type="com.yeonkims.realnoteapp.logic.viewmodels.note.DeleteNoteDialogViewModel" />
+            name="viewModel"
+            type="com.yeonkims.realnoteapp.logic.viewmodels.note.SelectedNoteViewModel" />
     </data>
 
     <LinearLayout
