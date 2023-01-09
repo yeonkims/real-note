@@ -51,14 +51,14 @@
                         android:layout_height="wrap_content"
                         android:text="@string/version_number"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="#000000"
+                        android:textColor="@color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1.0.0"
+                        android:text="@string/version_name"
                         android:layout_marginEnd="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
